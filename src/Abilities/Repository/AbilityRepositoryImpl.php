@@ -17,6 +17,12 @@ class AbilityRepositoryImpl implements AbilityRepository
     private ?CompiledRules $compiledRules = null;
     private AbilityChecker $abilityChecker;
 
+    private array $changedRules = [
+        'created' => [],
+        'updated' => [],
+        'deleted' => []
+    ];
+
     public function __construct(
         private readonly StorageInterface $storage
     ) {
