@@ -55,6 +55,6 @@ class Rule
 
     public function __toString(): string
     {
-        return ($this->isInverted() ? '!' : '') . ':' . $this->getScope() . ':' . $this->getResource() . ':' . $this->getAction();
+        return ($this->isInverted() ? '!' : '') . $this->getScope() . ':' . $this->getResource() . ':' . $this->getAction();
     }
 }
