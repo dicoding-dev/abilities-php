@@ -18,7 +18,7 @@ interface AbilityChecker
      * @param string $resource The object 'resource' to be accessed. Must be specific for a given {@see $scope}.
      *                         A 'resource' is defined by domain expert on specific {@see $scope}.
      * @param string $scope The scope for given rules. Impacting on how the systems select the resource
-     * @param mixed|null $field
+     * @param mixed|null $field Can be an object, array, or a single string, int for defining specific area of {@see $resource}
      *
      * @return bool true if the current user has the capabilities for current rule
      */
