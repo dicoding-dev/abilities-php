@@ -3,7 +3,7 @@
 use Abilities\Objects\Action;
 
 it('must fail when assigned with empty value', function () {
-    new Action('');
+    new Action(' ');
 })->throws(
     InvalidArgumentException::class,
     'Action must not be empty'

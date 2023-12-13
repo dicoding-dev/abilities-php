@@ -11,7 +11,7 @@ class Action
      */
     public function __construct(private readonly string $action = '*')
     {
-        if (empty($this->action)) {
+        if (empty(trim($this->action))) {
             throw new InvalidArgumentException('Action must not be empty');
         }
     }
