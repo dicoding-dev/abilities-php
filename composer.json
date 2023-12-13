@@ -3,6 +3,9 @@
     "description": "A core package for managing the authorization through CanCanCan style. With supports of granularity based on Attributes Based Access Control.",
     "type": "library",
     "license": "MIT",
+    "scripts": {
+        "test": "./vendor/bin/pest"
+    },
     "require": {
         "php": ">=8.1.0"
     },
