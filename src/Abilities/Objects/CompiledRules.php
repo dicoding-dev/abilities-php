@@ -9,7 +9,10 @@ class CompiledRules
     private array $compiledRules = [];
 
     /**
-     * @param string[] $rules A list of rules
+     * @param list<object{
+     *      id: int,
+     *      rule: string
+     *  }> $rules A list of rules with the rule ID
      */
     public function __construct(private readonly array $rules)
     {
@@ -39,7 +42,9 @@ class CompiledRules
     private function compile(): void
     {
         foreach ($this->rules as $rule) {
-            $compiledRule = RuleCompiler::compile($rule);
+            $compiledRule = RuleCompiler::compile($rule->rule);
+            $compiledRule->setRuleId($rule->id);
+
             $scope = $compiledRule->getScope()->get();
             $resource = $compiledRule->getResource()->getResource();
             $action = $compiledRule->getAction()->get();
