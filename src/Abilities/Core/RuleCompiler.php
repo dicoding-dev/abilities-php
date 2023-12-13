@@ -59,7 +59,7 @@ class RuleCompiler
             if ($reachedEndScope) {
                 $left = $syntax[$leftCursor++];
 
-                if ($left !== '/') {
+                if ($left !== '/' && $left !== ':') {
                     $resource .= $left;
                 } else {
                     break;
@@ -83,10 +83,10 @@ class RuleCompiler
         $field = null;
         if ($fieldLength > 0) {
             $fieldStr = substr($syntax, $leftCursor, $fieldLength);
-            if ($fieldStr[0] !== '[' || $fieldStr !== '{') {
+            if ($fieldStr[0] !== '[' && $fieldStr[0] !== '{') {
                 $field = $fieldStr;
             } else {
-                $field = json_decode($fieldStr, JSON_THROW_ON_ERROR);
+                $field = json_decode($fieldStr, flags: JSON_THROW_ON_ERROR);
             }
         }
 
