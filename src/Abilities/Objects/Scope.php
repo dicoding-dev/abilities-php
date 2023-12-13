@@ -2,10 +2,16 @@
 
 namespace Abilities\Objects;
 
+use InvalidArgumentException;
+
 class Scope
 {
-    public function __construct(private readonly string $scope = 'global')
+    public function __construct(private string $scope = 'global')
     {
+        $this->scope = trim($this->scope);
+        if (empty($this->scope)) {
+            throw new InvalidArgumentException('Scope must not be empty');
+        }
     }
 
     public function get(): string
