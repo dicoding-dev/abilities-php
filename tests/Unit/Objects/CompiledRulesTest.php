@@ -50,10 +50,22 @@ describe("Compile and query rules", function () {
     })->with([$compiledRules]);
 
     it('must return expected rule id', function (CompiledRules $compiledRules) {
-        $rules = $compiledRules->queryRule('scope1', 'resource1', 'read');
-
-        expect(array_map(fn (Rule $rule) => $rule->getRuleId(), $rules))->toContain(
+        $rules1 = $compiledRules->queryRule('scope1', 'resource1', 'read');
+        expect(array_map(fn (Rule $rule) => $rule->getRuleId(), $rules1))
+            ->toHaveCount(3)
+            ->toContain(
             2, 3, 4
-        );
+            );
+
+        $rules2 = $compiledRules->queryRule('scope1', 'resource1', '*');
+        expect(array_map(fn (Rule $rule) => $rule->getRuleId(), $rules2))
+            ->toHaveCount(1)
+            ->toContain(1);
+
+
+        $rules3 = $compiledRules->queryRule('scope2', 'resource1', 'read');
+        expect(array_map(fn (Rule $rule) => $rule->getRuleId(), $rules3))
+            ->toHaveCount(2)
+            ->toContain(5, 7);
     })->with([$compiledRules]);
 });
