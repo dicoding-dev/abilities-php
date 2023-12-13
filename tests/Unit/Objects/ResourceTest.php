@@ -2,6 +2,13 @@
 
 use Abilities\Objects\Resource;
 
+it("must throw error when passing empty/blank argument on 'resource' ", function () {
+    new Resource('  ');
+})->throws(
+    InvalidArgumentException::class,
+    'Resource must not be empty'
+);
+
 describe("toString function test", function () {
     test("successfully encode without field", function () {
         expect("" . new Resource("some_resource"))->toBeString('some_resource');

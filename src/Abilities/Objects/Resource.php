@@ -2,12 +2,18 @@
 
 namespace Abilities\Objects;
 
+use InvalidArgumentException;
+
 class Resource
 {
     public function __construct(
-        private readonly string $resource,
+        private string $resource,
         private readonly mixed $field = null
     ) {
+        $this->resource = trim($this->resource);
+        if (empty($this->resource)) {
+            throw new InvalidArgumentException('Resource must not be empty');
+        }
     }
 
     public function getResource(): string
