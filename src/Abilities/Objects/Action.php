@@ -9,9 +9,10 @@ class Action
     /**
      * @throws InvalidArgumentException
      */
-    public function __construct(private readonly string $action = '*')
+    public function __construct(private string $action = '*')
     {
-        if (empty(trim($this->action))) {
+        $this->action = trim($this->action);
+        if (empty($this->action)) {
             throw new InvalidArgumentException('Action must not be empty');
         }
     }
