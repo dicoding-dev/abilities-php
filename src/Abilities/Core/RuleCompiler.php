@@ -7,11 +7,12 @@ use Abilities\Objects\Action;
 use Abilities\Objects\Resource;
 use Abilities\Objects\Rule;
 use Abilities\Objects\Scope;
+use JsonException;
 
 class RuleCompiler
 {
     /**
-     * @throws CompilerException
+     * @throws CompilerException|JsonException
      */
     public static function compile(string $syntax): Rule
     {
