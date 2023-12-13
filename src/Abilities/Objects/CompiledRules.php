@@ -21,15 +21,15 @@ class CompiledRules
      */
     public function queryRule(string $scope, string $resource, string $action): array
     {
-        if (!in_array($scope, $this->compiledRules)) {
+        if (!array_key_exists($scope, $this->compiledRules)) {
             return [];
         }
 
-        if (!in_array($resource, $this->compiledRules[$scope])) {
+        if (!array_key_exists($resource, $this->compiledRules[$scope])) {
             return [];
         }
 
-        if (!in_array($action, $this->compiledRules[$scope][$resource])) {
+        if (!array_key_exists($action, $this->compiledRules[$scope][$resource])) {
             return [];
         }
 
@@ -44,15 +44,15 @@ class CompiledRules
             $resource = $compiledRule->getResource()->getResource();
             $action = $compiledRule->getAction()->get();
 
-            if (!in_array($scope, $this->compiledRules, true)) {
+            if (!array_key_exists($scope, $this->compiledRules)) {
                 $this->compiledRules[$scope] = [];
             }
 
-            if (!in_array($resource, $this->compiledRules[$scope], true)) {
+            if (!array_key_exists($resource, $this->compiledRules[$scope])) {
                 $this->compiledRules[$scope][$resource] = [];
             }
 
-            if (!in_array($action, $this->compiledRules[$scope][$resource], true)) {
+            if (!array_key_exists($action, $this->compiledRules[$scope][$resource])) {
                 $this->compiledRules[$scope][$resource][$action] = [];
             }
 
