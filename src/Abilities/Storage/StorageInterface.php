@@ -40,7 +40,10 @@ interface StorageInterface
      * This method called at initial, or any changes made after 'commit()' called.
      * It will retrieve all rules by specific @param int|string $userIdentification.
      *
-     * @return string[] the list of rules that owned by user
+     * @return list<object{
+     *     id: int,
+     *     rule: string
+     * }> the list of rules that owned by user
      */
     public function onGetRulesByUserId(int|string $userIdentification): array;
 }
