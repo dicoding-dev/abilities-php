@@ -89,7 +89,7 @@ class AbilityRepositoryImpl implements AbilityRepository
 
         $existingRule = $this->getChecker()->getRuleOf($rule);
 
-        if ($existingRule) {
+        if ($existingRule === null) {
             return;
         }
 
@@ -105,7 +105,7 @@ class AbilityRepositoryImpl implements AbilityRepository
             }
 
             $existingRule = $this->getChecker()->getRuleOf($rule);
-            if (!$existingRule) {
+            if ($existingRule !== null) {
                 $this->storage->onDeleteSpecificRule($existingRule->getRuleId());
             }
         }
