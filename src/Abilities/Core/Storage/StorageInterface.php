@@ -1,6 +1,6 @@
 <?php
 
-namespace Abilities\Storage;
+namespace Abilities\Core\Storage;
 
 /**
  * An interface for supports the 'abilities' library for making its rule become persistent on the storage.

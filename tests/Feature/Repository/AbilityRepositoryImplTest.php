@@ -3,7 +3,7 @@
 use Abilities\Core\AbilityChecker;
 use Abilities\Core\AbilityCheckerImpl;
 use Abilities\Core\Repository\AbilityRepositoryImpl;
-use Abilities\Storage\StorageInterface;
+use Abilities\Core\Storage\StorageInterface;
 
 describe('Get Ability Checker Function Test', function () {
     beforeEach(function () {

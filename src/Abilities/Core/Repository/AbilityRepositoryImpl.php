@@ -10,7 +10,7 @@ use Abilities\Core\Objects\Resource;
 use Abilities\Core\Objects\Rule;
 use Abilities\Core\Objects\Scope;
 use Abilities\Core\RuleCompiler;
-use Abilities\Storage\StorageInterface;
+use Abilities\Core\Storage\StorageInterface;
 
 /** @todo plan next is defining how we can use commit-approach */
 class AbilityRepositoryImpl implements AbilityRepository
