@@ -61,7 +61,11 @@ class CompiledRules
                 $this->compiledRules[$scope][$resource][$action] = [];
             }
 
-            $this->compiledRules[$scope][$resource][$action][] = $compiledRule;
+            if ($compiledRule->getResource()->allField()) {
+                array_unshift($this->compiledRules[$scope][$resource][$action], $compiledRule);
+            } else {
+                $this->compiledRules[$scope][$resource][$action][] = $compiledRule;
+            }
         }
     }
 }
