@@ -75,6 +75,14 @@ class AbilityRepositoryImpl implements AbilityRepository
     /**
      * @inheritDoc
      */
+    public function getAbilityRules(): array
+    {
+        return $this->storage->onGetRulesByUserId($this->currentUserId);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function removeAbility(string $action, string $resource, string $scope, mixed $field = null, bool $inverted = false): void
     {
         $rule = new Rule(

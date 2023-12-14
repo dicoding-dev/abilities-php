@@ -34,6 +34,12 @@ interface AbilityRepository
     public function addAbilities(array $rules): void;
 
     /**
+     * Get the all abilities for the current user's session
+     * @return string[] user's current ability
+     */
+    public function getAbilityRules(): array;
+
+    /**
      * Remove the capability for the current user.
      * See {@see addAbility()} for other parameters information
      */
