@@ -1,6 +1,6 @@
 <?php
 
-namespace Abilities\Repository;
+namespace Abilities\Core\Repository;
 
 use Abilities\Core\AbilityChecker;
 use Abilities\Core\Objects\Rule;

@@ -2,7 +2,7 @@
 
 use Abilities\Core\AbilityChecker;
 use Abilities\Core\AbilityCheckerImpl;
-use Abilities\Repository\AbilityRepositoryImpl;
+use Abilities\Core\Repository\AbilityRepositoryImpl;
 use Abilities\Storage\StorageInterface;
 
 describe('Get Ability Checker Function Test', function () {
