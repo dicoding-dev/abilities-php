@@ -73,11 +73,15 @@ class Resource
             return false;
         }
 
-        if ($this->isIntOrStringField($this->field) && $this->isIntOrStringField($field)) {
+        if ($this->fieldType === FieldType::STRING_OR_INT) {
+            if (!$this->isIntOrStringField($field)) {
+                return false;
+            }
+
             return "" . $this->field === "$field";
         }
 
-        if (is_array($this->field)) {
+        if ($this->fieldType === FieldType::ARRAY) {
             if (is_array($field)) {
                 foreach ($field as $fieldItem) {
                     if(!in_array($fieldItem, $this->field)) {
@@ -85,12 +89,12 @@ class Resource
                     }
                 }
                 return true;
-            } else {
-                return in_array($field, $this->field);
             }
+
+            return in_array($field, $this->field);
         }
 
-        if (is_object($this->field) && is_object($field)) {
+        if ($this->fieldType === FieldType::OBJECT) {
             return $field == $this->field;
         }
 
