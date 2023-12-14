@@ -130,10 +130,6 @@ class AbilityRepositoryImpl implements AbilityRepository
      */
     public function update(Rule|string $old, Rule|string $new): void
     {
-        if ($this->compiledRules === null) {
-            throw new \Exception("Rules still not compiled yet. Please call setUserId() to compile rules for specific user");
-        }
-
         if(is_string($old)) {
             $old = RuleCompiler::compile($old);
         }
