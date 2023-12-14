@@ -2,14 +2,14 @@
 
 namespace Abilities\Core;
 
-use Abilities\Core\AbilityChecker;
 use Abilities\Objects\CompiledRules;
 use Abilities\Objects\Rule;
 
 class AbilityCheckerImpl implements AbilityChecker
 {
-    public function __construct(private readonly CompiledRules $compiledRules)
-    {
+    public function __construct(
+        private readonly CompiledRules $compiledRules
+    ) {
     }
 
     /**
@@ -17,7 +17,36 @@ class AbilityCheckerImpl implements AbilityChecker
      */
     public function can(string $action, string $resource, string $scope, mixed $field = null): bool
     {
-        // TODO: Implement can() method.
+        $specificActionRules  = $this->compiledRules->queryRule($scope, $resource, $action);
+        $specificNormalRules = [];
+
+        foreach ($specificActionRules as $specificActionRule) {
+            if ($specificActionRule->isInverted()) {
+                /** 1. Checking on specific inverted rules */
+                if ($specificActionRule->getResource()->matchField($field)) {
+                    return false; // as the correspondent user is prohibited access resource
+                }
+            } else {
+                $specificNormalRules[] = $specificActionRule;
+            }
+        }
+
+        /** 2. Star-<action> rules */
+        $starActionRules = $this->compiledRules->queryRule($scope, $resource, '*');
+        foreach ($starActionRules as $starActionRule) {
+            if ($starActionRule->getResource()->matchField($field)) {
+                return !$starActionRule->isInverted();
+            }
+        }
+
+        /** 3. Other specific-<action> rules */
+        foreach ($specificNormalRules as $specificNormalRule) {
+            if ($specificNormalRule->getResource()->matchField($field)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -25,7 +54,7 @@ class AbilityCheckerImpl implements AbilityChecker
      */
     public function cannot(string $action, string $resource, string $scope, mixed $field = null): bool
     {
-        // TODO: Implement cannot() method.
+        return !$this->can($action, $resource, $scope, $field);
     }
 
     /**
