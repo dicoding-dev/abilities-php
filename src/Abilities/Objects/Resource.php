@@ -2,10 +2,13 @@
 
 namespace Abilities\Objects;
 
+use Abilities\Objects\Enums\FieldType;
 use InvalidArgumentException;
 
 class Resource
 {
+    private FieldType $fieldType;
+
     public function __construct(
         private string $resource,
         private readonly mixed $field = null
@@ -14,6 +17,35 @@ class Resource
         if (empty($this->resource)) {
             throw new InvalidArgumentException('Resource must not be empty');
         }
+
+        $this->processField();
+    }
+
+    private function processField(): void
+    {
+        if (empty($this->field) || $this->field === '*') {
+            $this->fieldType = FieldType::ALL;
+            return;
+        }
+
+        if ($this->isIntOrStringField($this->field)) {
+            $this->fieldType = FieldType::STRING_OR_INT;
+            return;
+        }
+
+        if (is_object($this->field)) {
+            $this->fieldType = FieldType::OBJECT;
+            return;
+        }
+
+        if (array_is_list($this->field)) {
+            $this->fieldType = FieldType::ARRAY;
+            return;
+        }
+
+        throw new InvalidArgumentException(
+            'Invalid field argument. Field does not support associative or non-trimmed string'
+        );
     }
 
     public function getResource(): string
@@ -28,11 +60,7 @@ class Resource
 
     public function allField(): bool
     {
-        if (empty($this->getField())) {
-            return true;
-        }
-
-        return $this->getField() === '*';
+        return $this->fieldType === FieldType::ALL;
     }
 
     public function matchField(mixed $field): bool
