@@ -108,8 +108,12 @@ class Resource
 
     public function __toString(): string
     {
-        if (empty($this->getField())) {
-            return $this->getResource();
+        if ($this->allField()) {
+            return $this->getResource() . "/*";
+        }
+
+        if ($this->fieldType === FieldType::STRING_OR_INT) {
+            return $this->getResource() . "/" . $this->getField();
         }
 
         return $this->getResource() . "/" . json_encode($this->getField());
