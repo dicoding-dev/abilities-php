@@ -34,3 +34,23 @@ describe("toString function test", function () {
             ->toBeString('some_resource/non_json_field');
     });
 });
+
+describe("allField() function test", function () {
+    it('must return true when field property is empty', function () {
+        expect(
+            (new Resource("some_resource"))->allField()
+        )->toBeTrue();
+    });
+
+    it('must return true when field property is star', function () {
+        expect(
+            (new Resource("some_resource", '*'))->allField()
+        )->toBeTrue();
+    });
+
+    it('must return false when field property is neither star and empty', function () {
+        expect(
+            (new Resource("some_resource", 'some_field'))->allField()
+        )->toBeFalse();
+    });
+});

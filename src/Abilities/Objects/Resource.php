@@ -26,6 +26,15 @@ class Resource
         return $this->field;
     }
 
+    public function allField(): bool
+    {
+        if (empty($this->getField())) {
+            return true;
+        }
+
+        return $this->getField() === '*';
+    }
+
     public function __toString(): string
     {
         if (empty($this->getField())) {
