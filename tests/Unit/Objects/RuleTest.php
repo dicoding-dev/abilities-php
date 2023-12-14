@@ -36,11 +36,11 @@ describe("getRuleId function test", function () {
 describe("toString function test", function () {
     test("successfully encode inverted rules", function () {
         $rule = makeRule(isInverted: true);
-        expect("$rule")->toEqual("!scope:resource:action");
+        expect("$rule")->toEqual("!scope:resource/*:action");
     });
     test("successfully encode normal rules", function () {
         $rule = makeRule();
-        expect("$rule")->toEqual("scope:resource:action");
+        expect("$rule")->toEqual("scope:resource/*:action");
     });
     test("successfully rule with custom resource", function () {
         $rule = makeRule(
