@@ -46,7 +46,7 @@ describe("toString function test", function () {
         $rule = makeRule(
             resource: new Resource(
                 'res',
-                [
+                (object) [
                     'param_1' => 22
                 ]
             )
