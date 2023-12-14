@@ -62,6 +62,15 @@ class AbilityCheckerImpl implements AbilityChecker
      */
     public function hasRule(string|Rule $ruleOrSyntax): bool
     {
+        $rule = $this->getRuleOf($ruleOrSyntax);
+        return $rule !== null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRuleOf(string|Rule $ruleOrSyntax): ?Rule
+    {
         if(is_string($ruleOrSyntax)) {
             $ruleOrSyntax = RuleCompiler::compile($ruleOrSyntax);
         }
@@ -74,10 +83,10 @@ class AbilityCheckerImpl implements AbilityChecker
 
         foreach ($queriedRules as $queriedRule) {
             if ($queriedRule->getResource() == $ruleOrSyntax->getResource()) {
-                return true;
+                return $queriedRule;
             }
         }
 
-        return false;
+        return null;
     }
 }

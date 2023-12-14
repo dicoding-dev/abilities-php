@@ -52,4 +52,9 @@ interface AbilityChecker
      * @return bool true if the current user has the rule
      */
     public function hasRule(Rule|string $ruleOrSyntax): bool;
+
+    /**
+     * Get the live rule from constructed rule. Live rule contains ID that matters for editing
+     */
+    public function getRuleOf(Rule|string $ruleOrSyntax): ?Rule;
 }
