@@ -62,6 +62,22 @@ class AbilityCheckerImpl implements AbilityChecker
      */
     public function hasRule(string|Rule $ruleOrSyntax): bool
     {
-        // TODO: Implement hasRule() method.
+        if(is_string($ruleOrSyntax)) {
+            $ruleOrSyntax = RuleCompiler::compile($ruleOrSyntax);
+        }
+
+        $queriedRules = $this->compiledRules->queryRule(
+            $ruleOrSyntax->getScope()->get(),
+            $ruleOrSyntax->getResource()->getResource(),
+            $ruleOrSyntax->getAction()->get()
+        );
+
+        foreach ($queriedRules as $queriedRule) {
+            if ($queriedRule->getResource() == $ruleOrSyntax->getResource()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
