@@ -2,7 +2,7 @@
 
 namespace Abilities\Core;
 
-use Abilities\Exceptions\CompilerException;
+use Abilities\Core\Exceptions\CompilerException;
 use Abilities\Objects\Action;
 use Abilities\Objects\Resource;
 use Abilities\Objects\Rule;
