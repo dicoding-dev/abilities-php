@@ -2,8 +2,8 @@
 
 namespace Abilities\Core;
 
-use Abilities\Objects\CompiledRules;
-use Abilities\Objects\Rule;
+use Abilities\Core\Objects\CompiledRules;
+use Abilities\Core\Objects\Rule;
 
 class AbilityCheckerImpl implements AbilityChecker
 {

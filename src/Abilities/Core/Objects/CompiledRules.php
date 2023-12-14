@@ -1,6 +1,6 @@
 <?php
 
-namespace Abilities\Objects;
+namespace Abilities\Core\Objects;
 
 use Abilities\Core\RuleCompiler;
 

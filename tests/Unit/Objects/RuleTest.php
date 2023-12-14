@@ -1,9 +1,9 @@
 <?php
 
-use Abilities\Objects\Action;
-use Abilities\Objects\Resource;
-use Abilities\Objects\Rule;
-use Abilities\Objects\Scope;
+use Abilities\Core\Objects\Action;
+use Abilities\Core\Objects\Resource;
+use Abilities\Core\Objects\Rule;
+use Abilities\Core\Objects\Scope;
 
 function makeRule(
     Resource $resource = new Resource('resource'),

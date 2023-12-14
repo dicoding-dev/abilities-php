@@ -1,8 +1,8 @@
 <?php
 
-namespace Abilities\Objects;
+namespace Abilities\Core\Objects;
 
-use Abilities\Objects\Enums\FieldType;
+use Abilities\Core\Objects\Enums\FieldType;
 use InvalidArgumentException;
 
 class Resource

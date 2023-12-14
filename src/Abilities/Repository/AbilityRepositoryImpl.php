@@ -4,12 +4,12 @@ namespace Abilities\Repository;
 
 use Abilities\Core\AbilityChecker;
 use Abilities\Core\AbilityCheckerImpl;
+use Abilities\Core\Objects\Action;
+use Abilities\Core\Objects\CompiledRules;
+use Abilities\Core\Objects\Resource;
+use Abilities\Core\Objects\Rule;
+use Abilities\Core\Objects\Scope;
 use Abilities\Core\RuleCompiler;
-use Abilities\Objects\Action;
-use Abilities\Objects\CompiledRules;
-use Abilities\Objects\Resource;
-use Abilities\Objects\Rule;
-use Abilities\Objects\Scope;
 use Abilities\Storage\StorageInterface;
 
 /** @todo plan next is defining how we can use commit-approach */

@@ -3,7 +3,7 @@
 namespace Abilities\Repository;
 
 use Abilities\Core\AbilityChecker;
-use Abilities\Objects\Rule;
+use Abilities\Core\Objects\Rule;
 
 interface AbilityRepository
 {

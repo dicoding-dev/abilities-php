@@ -1,6 +1,6 @@
 <?php
 
-use Abilities\Objects\Scope;
+use Abilities\Core\Objects\Scope;
 
 it("must throw error when passing empty/blank argument on 'scope' ", function () {
     new Scope('  ');

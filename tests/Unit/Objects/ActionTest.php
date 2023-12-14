@@ -1,6 +1,6 @@
 <?php
 
-use Abilities\Objects\Action;
+use Abilities\Core\Objects\Action;
 
 it('must fail when assigned with empty value', function () {
     new Action(' ');

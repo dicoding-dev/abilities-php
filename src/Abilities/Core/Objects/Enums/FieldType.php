@@ -1,6 +1,6 @@
 <?php
 
-namespace Abilities\Objects\Enums;
+namespace Abilities\Core\Objects\Enums;
 
 enum FieldType
 {

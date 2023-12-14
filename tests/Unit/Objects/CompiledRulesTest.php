@@ -1,7 +1,7 @@
 <?php
 
-use Abilities\Objects\CompiledRules;
-use Abilities\Objects\Rule;
+use Abilities\Core\Objects\CompiledRules;
+use Abilities\Core\Objects\Rule;
 
 describe("Compile and query rules", function () {
     $rules = [

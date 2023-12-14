@@ -1,6 +1,6 @@
 <?php
 
-use Abilities\Objects\Resource;
+use Abilities\Core\Objects\Resource;
 
 it("must throw error when passing empty/blank argument on 'resource' ", function () {
     new Resource('  ');

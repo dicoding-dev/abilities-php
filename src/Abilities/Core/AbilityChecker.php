@@ -2,7 +2,7 @@
 
 namespace Abilities\Core;
 
-use Abilities\Objects\Rule;
+use Abilities\Core\Objects\Rule;
 
 /**
  * A library for supports the ability checker
