@@ -77,10 +77,6 @@ class AbilityRepositoryImpl implements AbilityRepository
      */
     public function removeAbility(string $action, string $resource, string $scope, mixed $field = null, bool $inverted = false): void
     {
-        if ($this->compiledRules === null) {
-            throw new \Exception("Rules still not compiled yet. Please call setUserId() to compile rules for specific user");
-        }
-
         $rule = new Rule(
             new Scope($scope),
             new Resource(
