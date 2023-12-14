@@ -2,9 +2,9 @@
 
 namespace Abilities\Core\Comparator;
 
+use Abilities\Core\Compiler\RuleCompiler;
 use Abilities\Core\Objects\CompiledRules;
 use Abilities\Core\Objects\Rule;
-use Abilities\Core\RuleCompiler;
 
 class AbilityCheckerImpl implements AbilityChecker
 {

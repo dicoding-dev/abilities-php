@@ -1,7 +1,7 @@
 <?php
 
+use Abilities\Core\Compiler\RuleCompiler;
 use Abilities\Core\Exceptions\CompilerException;
-use Abilities\Core\RuleCompiler;
 
 describe("Compile a rule syntax", function () {
     it("must aaaaa", function () {

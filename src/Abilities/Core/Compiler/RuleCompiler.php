@@ -1,6 +1,6 @@
 <?php
 
-namespace Abilities\Core;
+namespace Abilities\Core\Compiler;
 
 use Abilities\Core\Exceptions\CompilerException;
 use Abilities\Core\Objects\Action;

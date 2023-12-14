@@ -3,8 +3,8 @@
 namespace Core;
 
 use Abilities\Core\Comparator\AbilityCheckerImpl;
+use Abilities\Core\Compiler\RuleCompiler;
 use Abilities\Core\Objects\CompiledRules;
-use Abilities\Core\RuleCompiler;
 
 /**
  * FIRST PRECEDENCE

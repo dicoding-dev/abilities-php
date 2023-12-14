@@ -2,7 +2,7 @@
 
 namespace Abilities\Core\Objects;
 
-use Abilities\Core\RuleCompiler;
+use Abilities\Core\Compiler\RuleCompiler;
 
 class CompiledRules
 {
