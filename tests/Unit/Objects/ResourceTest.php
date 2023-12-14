@@ -22,7 +22,7 @@ describe("toString function test", function () {
     test("successfully encode with json object field", function () {
         expect("" . new Resource(
             "some_resource",
-                [
+                (object) [
                     'some_field' => 'some_value'
                 ]
             )
