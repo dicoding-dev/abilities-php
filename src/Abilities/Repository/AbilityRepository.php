@@ -22,7 +22,8 @@ interface AbilityRepository
         string $action,
         string $resource,
         string $scope,
-        mixed $field = null
+        mixed $field = null,
+        bool $inverted = false
     ): void;
 
     /**
@@ -33,7 +34,8 @@ interface AbilityRepository
         string $action,
         string $resource,
         string $scope,
-        mixed $field = null
+        mixed $field = null,
+        bool $inverted = false
     ): void;
 
     /**
@@ -52,7 +54,7 @@ interface AbilityRepository
     public function commitChanges(): void;
 
     /**
-     * Set the current session for specific {@param int $userId}
+     * Set the current session for specific {@param int|string $userId}
      */
-    public function setUserId(int $userId): void;
+    public function setUserId(int|string $userId): void;
 }
