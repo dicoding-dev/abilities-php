@@ -1,6 +1,6 @@
 <?php
 
-namespace Abilities\Core;
+namespace Abilities\Core\Comparator;
 
 use Abilities\Core\Objects\Rule;
 

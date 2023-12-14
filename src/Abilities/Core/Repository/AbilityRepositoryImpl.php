@@ -2,8 +2,8 @@
 
 namespace Abilities\Core\Repository;
 
-use Abilities\Core\AbilityChecker;
-use Abilities\Core\AbilityCheckerImpl;
+use Abilities\Core\Comparator\AbilityChecker;
+use Abilities\Core\Comparator\AbilityCheckerImpl;
 use Abilities\Core\Objects\Action;
 use Abilities\Core\Objects\CompiledRules;
 use Abilities\Core\Objects\Resource;

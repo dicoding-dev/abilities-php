@@ -1,9 +1,10 @@
 <?php
 
-namespace Abilities\Core;
+namespace Abilities\Core\Comparator;
 
 use Abilities\Core\Objects\CompiledRules;
 use Abilities\Core\Objects\Rule;
+use Abilities\Core\RuleCompiler;
 
 class AbilityCheckerImpl implements AbilityChecker
 {

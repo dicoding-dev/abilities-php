@@ -2,7 +2,7 @@
 
 namespace Abilities\Core\Repository;
 
-use Abilities\Core\AbilityChecker;
+use Abilities\Core\Comparator\AbilityChecker;
 use Abilities\Core\Objects\Rule;
 
 interface AbilityRepository

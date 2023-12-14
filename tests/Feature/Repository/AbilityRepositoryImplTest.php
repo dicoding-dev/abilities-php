@@ -1,7 +1,7 @@
 <?php
 
-use Abilities\Core\AbilityChecker;
-use Abilities\Core\AbilityCheckerImpl;
+use Abilities\Core\Comparator\AbilityChecker;
+use Abilities\Core\Comparator\AbilityCheckerImpl;
 use Abilities\Core\Repository\AbilityRepositoryImpl;
 use Abilities\Core\Storage\StorageInterface;
 

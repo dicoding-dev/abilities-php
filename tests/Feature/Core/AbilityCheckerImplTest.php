@@ -2,7 +2,7 @@
 
 namespace Core;
 
-use Abilities\Core\AbilityCheckerImpl;
+use Abilities\Core\Comparator\AbilityCheckerImpl;
 use Abilities\Core\Objects\CompiledRules;
 use Abilities\Core\RuleCompiler;
 
