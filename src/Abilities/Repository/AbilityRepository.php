@@ -27,6 +27,13 @@ interface AbilityRepository
     ): void;
 
     /**
+     * Add abilities for current user
+     *
+     * @param Rule[]|string[] $rules
+     */
+    public function addAbilities(array $rules): void;
+
+    /**
      * Remove the capability for the current user.
      * See {@see addAbility()} for other parameters information
      */
@@ -37,6 +44,13 @@ interface AbilityRepository
         mixed $field = null,
         bool $inverted = false
     ): void;
+
+    /**
+     * Remove abilities for current user
+     *
+     * @param Rule[]|string[] $rules
+     */
+    public function removeAbilities(array $rules): void;
 
     /**
      * Get the implementation of {@see AbilityChecker}.
