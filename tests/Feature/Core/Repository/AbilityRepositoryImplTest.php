@@ -10,21 +10,12 @@ describe('Get Ability Checker Function Test', function () {
 
         $this->storage = Mockery::mock(StorageFixture::class)->makePartial();
         $this->abilityRepositoryInstance = new AbilityRepositoryImpl(
+            1,
             $this->storage
         );
     });
 
-    it('must return error when rules not compiled yet', function () {
-        $this->abilityRepositoryInstance->getChecker();
-    })->throws(
-        Exception::class,
-        "Rules still not compiled yet. Please call setUserId() to compile rules for specific user"
-    );
-
     it('must return ability checker when rules is compiled', function () {
-
-        $this->abilityRepositoryInstance->setUserId(1);
-
         expect($this->abilityRepositoryInstance->getChecker())
             ->toBeInstanceOf(AbilityCheckerImpl::class);
 
