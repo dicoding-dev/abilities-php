@@ -77,7 +77,10 @@ class AbilityRepositoryImpl implements AbilityRepository
      */
     public function getAbilityRules(): array
     {
-        return $this->storage->onGetRulesByUserId($this->currentUserId);
+        return array_map(
+            fn(object $object) => $object->rule,
+            $this->storage->onGetRulesByUserId($this->currentUserId)
+        );
     }
 
     /**
