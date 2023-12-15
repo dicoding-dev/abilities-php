@@ -149,8 +149,8 @@ describe("Update the ability rule test", function () {
 class StorageFixture implements StorageInterface
 {
     private array $rules = [
-        'scope1:resource1:read',
-        'scope1:resource2:update'
+        1 => 'scope1:resource1:read',
+        2 => 'scope1:resource2:update'
     ];
 
     /**
@@ -158,24 +158,24 @@ class StorageFixture implements StorageInterface
      */
     public function onInsertNewRule(int|string $userIdentification, string $newRule): int
     {
-        $this->rules[] = $newRule;
-        return count($this->rules);
+        $this->rules[$id = array_key_last($this->rules)+1] = $newRule;
+        return $id;
     }
 
     /**
      * @inheritDoc
      */
-    public function onUpdateRule(int $ruleId, string $updatedRule): void
+    public function onUpdateRule(int $ruleId, int|string $userId, string $updatedRule): void
     {
-        $this->rules[$ruleId - 1] = $updatedRule;
+        $this->rules[$ruleId] = $updatedRule;
     }
 
     /**
      * @inheritDoc
      */
-    public function onDeleteSpecificRule(int $deletedRuleId): void
+    public function onDeleteSpecificRule(int $deletedRuleId, int|string $userId): void
     {
-        unset($this->rules[$deletedRuleId-1]);
+        unset($this->rules[$deletedRuleId]);
     }
 
     /**
@@ -186,7 +186,7 @@ class StorageFixture implements StorageInterface
         $mappedObjectRules = [];
         foreach ($this->rules as $index=>$rule) {
             $mappedObjectRules[] = (object) [
-                'id' => $index+1,
+                'id' => $index,
                 'rule' => $rule
             ];
         }
