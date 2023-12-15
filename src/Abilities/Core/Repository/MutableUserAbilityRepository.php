@@ -13,7 +13,7 @@ use Abilities\Core\Objects\Scope;
 use Abilities\Core\Storage\StorageInterface;
 
 /** @todo plan next is defining how we can use commit-approach */
-class UserAbilityRepository implements AbilityRepository
+class MutableUserAbilityRepository implements MutableAbilityRepository
 {
     private ?CompiledRules $compiledRules = null;
     private AbilityChecker $abilityChecker;
