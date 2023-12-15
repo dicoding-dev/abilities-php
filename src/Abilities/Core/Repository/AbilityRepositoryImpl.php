@@ -15,8 +15,6 @@ use Abilities\Core\Storage\StorageInterface;
 /** @todo plan next is defining how we can use commit-approach */
 class AbilityRepositoryImpl implements AbilityRepository
 {
-    private int|string $currentUserId;
-
     private ?CompiledRules $compiledRules = null;
     private AbilityChecker $abilityChecker;
 
@@ -28,6 +26,7 @@ class AbilityRepositoryImpl implements AbilityRepository
     ];
 
     public function __construct(
+        private readonly int|string $currentUserId,
         private readonly StorageInterface $storage
     ) {
     }
@@ -166,15 +165,6 @@ class AbilityRepositoryImpl implements AbilityRepository
     public function commitChanges(): void
     {
         throw new \Exception('Not implemented yet!');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setUserId(int|string $userId): void
-    {
-        $this->currentUserId = $userId;
-        $this->refresh();
     }
 
     private function refresh(): void
