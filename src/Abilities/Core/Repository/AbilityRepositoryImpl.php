@@ -29,6 +29,7 @@ class AbilityRepositoryImpl implements AbilityRepository
         private readonly int|string $currentUserId,
         private readonly StorageInterface $storage
     ) {
+        $this->refresh();
     }
     /**
      * @inheritDoc
