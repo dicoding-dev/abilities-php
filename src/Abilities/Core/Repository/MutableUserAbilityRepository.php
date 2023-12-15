@@ -104,7 +104,7 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
             return;
         }
 
-        $this->storage->onDeleteSpecificRule($existingRule->getRuleId());
+        $this->storage->onDeleteSpecificRule($this->currentUserId, $existingRule->getRuleId());
         $this->refresh();
     }
 
@@ -117,11 +117,12 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
 
             $existingRule = $this->getChecker()->getRuleOf($rule);
             if ($existingRule !== null) {
-                $this->storage->onDeleteSpecificRule($existingRule->getRuleId());
+                $this->storage->onDeleteSpecificRule($existingRule->getRuleId(), $this->currentUserId);
             }
         }
 
         $this->refresh();
+//        var_dump($this->storage->onGetRulesByUserId($this->currentUserId));
     }
 
     /**
@@ -150,7 +151,7 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
             return;
         }
 
-        $this->storage->onUpdateRule($existingRule->getRuleId(), "$new");
+        $this->storage->onUpdateRule($existingRule->getRuleId(), $this->currentUserId, "$new");
         $this->refresh();
     }
 
