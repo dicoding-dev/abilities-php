@@ -83,7 +83,7 @@ class RuleCompiler
         $fieldLength = $rightCursor - $leftCursor + 1;
         $field = null;
         if ($fieldLength > 0) {
-            $fieldStr = substr($syntax, $leftCursor, $fieldLength);
+            $fieldStr = trim(substr($syntax, $leftCursor, $fieldLength));
             if ($fieldStr[0] !== '[' && $fieldStr[0] !== '{') {
                 $field = $fieldStr;
             } else {
