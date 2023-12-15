@@ -30,10 +30,9 @@ describe('Add ability test', function () {
 
         $this->storage = Mockery::mock(StorageFixture::class)->makePartial();
         $this->abilityRepositoryInstance = new AbilityRepositoryImpl(
+            1,
             $this->storage
         );
-
-        $this->abilityRepositoryInstance->setUserId(1);
     });
 
     it('must not add the ability when the user has the rule', function () {
@@ -72,10 +71,9 @@ describe("Remove the ability test", function () {
 
         $this->storage = Mockery::mock(StorageFixture::class)->makePartial();
         $this->abilityRepositoryInstance = new AbilityRepositoryImpl(
+            1,
             $this->storage
         );
-
-        $this->abilityRepositoryInstance->setUserId(1);
     });
 
     it('cannot delete when the ability doesnt exist', function () {
@@ -117,10 +115,9 @@ describe("Update the ability rule test", function () {
 
         $this->storage = Mockery::mock(StorageFixture::class)->makePartial();
         $this->abilityRepositoryInstance = new AbilityRepositoryImpl(
+            1,
             $this->storage
         );
-
-        $this->abilityRepositoryInstance->setUserId(1);
     });
 
 
