@@ -2,14 +2,14 @@
 
 use Abilities\Core\Comparator\AbilityChecker;
 use Abilities\Core\Comparator\AbilityCheckerImpl;
-use Abilities\Core\Repository\AbilityRepositoryImpl;
+use Abilities\Core\Repository\UserAbilityRepository;
 use Abilities\Core\Storage\StorageInterface;
 
 describe('Get Ability Checker Function Test', function () {
     beforeEach(function () {
 
         $this->storage = Mockery::mock(StorageFixture::class)->makePartial();
-        $this->abilityRepositoryInstance = new AbilityRepositoryImpl(
+        $this->abilityRepositoryInstance = new UserAbilityRepository(
             1,
             $this->storage
         );
@@ -29,7 +29,7 @@ describe('Add ability test', function () {
     beforeEach(function () {
 
         $this->storage = Mockery::mock(StorageFixture::class)->makePartial();
-        $this->abilityRepositoryInstance = new AbilityRepositoryImpl(
+        $this->abilityRepositoryInstance = new UserAbilityRepository(
             1,
             $this->storage
         );
@@ -70,7 +70,7 @@ describe("Remove the ability test", function () {
     beforeEach(function () {
 
         $this->storage = Mockery::mock(StorageFixture::class)->makePartial();
-        $this->abilityRepositoryInstance = new AbilityRepositoryImpl(
+        $this->abilityRepositoryInstance = new UserAbilityRepository(
             1,
             $this->storage
         );
@@ -114,7 +114,7 @@ describe("Update the ability rule test", function () {
     beforeEach(function () {
 
         $this->storage = Mockery::mock(StorageFixture::class)->makePartial();
-        $this->abilityRepositoryInstance = new AbilityRepositoryImpl(
+        $this->abilityRepositoryInstance = new UserAbilityRepository(
             1,
             $this->storage
         );
