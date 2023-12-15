@@ -129,10 +129,6 @@ class UserAbilityRepository implements AbilityRepository
      */
     public function getChecker(): AbilityChecker
     {
-        if ($this->compiledRules === null) {
-            throw new \Exception("Rules still not compiled yet. Please call setUserId() to compile rules for specific user");
-        }
-
         return $this->abilityChecker;
     }
 
