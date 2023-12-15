@@ -27,14 +27,14 @@ interface StorageInterface
      * @param int $ruleId the rule ID
      * @param string $updatedRule the updated rule for the current rule ID
      */
-    public function onUpdateRule(int $ruleId, string $updatedRule): void;
+    public function onUpdateRule(int $ruleId, int|string $userId, string $updatedRule): void;
 
     /**
      * This method called when a single rule is deleted.
      *
      * @param int $deletedRuleId the rule defined by ID to be deleted
      */
-    public function onDeleteSpecificRule(int $deletedRuleId): void;
+    public function onDeleteSpecificRule(int $deletedRuleId, int|string $userId): void;
 
     /**
      * This method called at initial, or any changes made after 'commit()' called.
