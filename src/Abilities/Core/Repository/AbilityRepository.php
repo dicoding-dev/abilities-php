@@ -72,9 +72,4 @@ interface AbilityRepository
      * Commit the current changes to the storage
      */
     public function commitChanges(): void;
-
-    /**
-     * Set the current session for specific {@param int|string $userId}
-     */
-    public function setUserId(int|string $userId): void;
 }
