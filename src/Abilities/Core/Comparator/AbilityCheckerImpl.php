@@ -83,7 +83,7 @@ class AbilityCheckerImpl implements AbilityChecker
         );
 
         foreach ($queriedRules as $queriedRule) {
-            if ($queriedRule->getResource() == $ruleOrSyntax->getResource()) {
+            if ($queriedRule->getResource()->matchField($ruleOrSyntax->getResource()->getField())) {
                 return $queriedRule;
             }
         }

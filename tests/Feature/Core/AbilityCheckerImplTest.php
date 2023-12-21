@@ -188,7 +188,7 @@ describe('hasRule() feature function test', function () {
         ]);
 
         $user = new AbilityCheckerImpl($compiledRules);
-        expect($user->hasRule(RuleCompiler::compile('scope2:resource1/[6, 8]:update')))
+        expect($user->hasRule(RuleCompiler::compile('scope2:resource1/[8, 9]:update')))
             ->toBeFalse();
     });
 });
