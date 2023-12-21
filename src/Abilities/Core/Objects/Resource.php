@@ -28,8 +28,8 @@ class Resource
             return;
         }
 
-        if ($this->isIntOrStringField($this->field)) {
-            $this->fieldType = FieldType::STRING_OR_INT;
+        if ($this->isSingularField($this->field)) {
+            $this->fieldType = FieldType::SINGULAR_FIELD;
             return;
         }
 
@@ -73,8 +73,8 @@ class Resource
             return false;
         }
 
-        if ($this->fieldType === FieldType::STRING_OR_INT) {
-            if (!$this->isIntOrStringField($field)) {
+        if ($this->fieldType === FieldType::SINGULAR_FIELD) {
+            if (!$this->isSingularField($field)) {
                 return false;
             }
 
@@ -101,7 +101,7 @@ class Resource
         return false;
     }
 
-    private function isIntOrStringField(mixed $field): bool
+    private function isSingularField(mixed $field): bool
     {
         return is_string($field) || is_int($field);
     }
@@ -112,7 +112,7 @@ class Resource
             return $this->getResource() . "/*";
         }
 
-        if ($this->fieldType === FieldType::STRING_OR_INT) {
+        if ($this->fieldType === FieldType::SINGULAR_FIELD) {
             return $this->getResource() . "/" . $this->getField();
         }
 

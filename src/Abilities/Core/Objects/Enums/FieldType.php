@@ -5,7 +5,7 @@ namespace Abilities\Core\Objects\Enums;
 enum FieldType
 {
     case ALL;
-    case STRING_OR_INT;
+    case SINGULAR_FIELD;
     case OBJECT;
     case ARRAY;
 }
