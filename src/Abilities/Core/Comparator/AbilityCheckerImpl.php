@@ -83,7 +83,8 @@ class AbilityCheckerImpl implements AbilityChecker
         );
 
         foreach ($queriedRules as $queriedRule) {
-            if ($queriedRule->getResource()->matchField($ruleOrSyntax->getResource()->getField())) {
+            if ($queriedRule->getResource()->matchField($ruleOrSyntax->getResource()->getField())
+                && $ruleOrSyntax->isInverted() === $queriedRule->isInverted()) {
                 return $queriedRule;
             }
         }
