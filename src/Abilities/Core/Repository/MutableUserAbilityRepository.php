@@ -122,7 +122,6 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
         }
 
         $this->refresh();
-//        var_dump($this->storage->onGetRulesByUserId($this->currentUserId));
     }
 
     /**
