@@ -4,10 +4,6 @@ use Abilities\Core\Compiler\RuleCompiler;
 use Abilities\Core\Exceptions\CompilerException;
 
 describe("Compile a rule syntax", function () {
-    it("must aaaaa", function () {
-        $f = RuleCompiler::compile('scope:SOMEEEE/a:action');
-        expect($f->getResource()->getField())->toBeString("a");
-    });
 
     it("must throw error if syntax is empty", function () {
         RuleCompiler::compile("");
