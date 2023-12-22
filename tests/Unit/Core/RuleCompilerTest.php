@@ -34,30 +34,40 @@ describe("Compile a rule syntax", function () {
     );
 
     describe("must return expected", function () {
+        test('inverted rules', function () {
+            $rule = RuleCompiler::compile('!scope:resource:action');
+
+            expect($rule->getScope()->get())->toBe('scope')
+                ->and($rule->getResource()->getResource())->toBe('resource')
+                ->and($rule->getResource()->getField())->toBeNull()
+                ->and($rule->getAction()->get())->toBe('action')
+                ->and($rule->isInverted())->toBeTrue();
+        });
+
         test("when resource have no field", function() {
             $rule = RuleCompiler::compile('scope:resource:action');
 
-            expect($rule->getAction()->get())->toBeString('scope')
-                ->and($rule->getResource()->getResource())->toBeString('resource')
+            expect($rule->getScope()->get())->toBe('scope')
+                ->and($rule->getResource()->getResource())->toBe('resource')
                 ->and($rule->getResource()->getField())->toBeNull()
-                ->and($rule->getAction()->get())->toBeString('action');
+                ->and($rule->getAction()->get())->toBe('action');
         });
 
         test("when resource have single field", function() {
             $rule = RuleCompiler::compile('scope:resource/some_field:action');
 
-            expect($rule->getAction()->get())->toBeString('scope')
-                ->and($rule->getResource()->getResource())->toBeString('resource')
-                ->and($rule->getResource()->getField())->toBeString('some_field')
-                ->and($rule->getAction()->get())->toBeString('action');
+            expect($rule->getScope()->get())->toBe('scope')
+                ->and($rule->getResource()->getResource())->toBe('resource')
+                ->and($rule->getResource()->getField())->toBe('some_field')
+                ->and($rule->getAction()->get())->toBe('action');
         });
 
         test("when resource have object field", function() {
             $rule = RuleCompiler::compile('scope:resource/{ "fieldA": 2, "fieldB": 5 }:action');
 
-            expect($rule->getAction()->get())->toBeString('scope')
-                ->and($rule->getResource()->getResource())->toBeString('resource')
-                ->and($rule->getAction()->get())->toBeString('action');
+            expect($rule->getScope()->get())->toBe('scope')
+                ->and($rule->getResource()->getResource())->toBe('resource')
+                ->and($rule->getAction()->get())->toBe('action');
 
             $field = $rule->getResource()->getField();
             expect($field->fieldA)->toBeInt(2)
@@ -67,9 +77,9 @@ describe("Compile a rule syntax", function () {
         test("when resource have array field", function() {
             $rule = RuleCompiler::compile('scope:resource/[1, 2, 3]:action');
 
-            expect($rule->getAction()->get())->toBeString('scope')
-                ->and($rule->getResource()->getResource())->toBeString('resource')
-                ->and($rule->getAction()->get())->toBeString('action');
+            expect($rule->getScope()->get())->toBe('scope')
+                ->and($rule->getResource()->getResource())->toBe('resource')
+                ->and($rule->getAction()->get())->toBe('action');
 
             $field = $rule->getResource()->getField();
             expect($field)->toBe([1, 2, 3]);
