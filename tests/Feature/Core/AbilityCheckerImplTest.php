@@ -25,7 +25,7 @@ describe('can() feature function test', function () {
         $compiledRules = new CompiledRules([
             (object) [
                 'id' => 1,
-                'rule' => 'scope1:resource1:read'
+                'rule' => 'scope2:resource1:read'
             ],
             (object) [
                 'id' => 2,
@@ -33,12 +33,20 @@ describe('can() feature function test', function () {
             ],
             (object) [
                 'id' => 3,
-                'rule' => '!scope1:resource1/[6, 7, 8]:update'
+                'rule' => 'scope1:resource1/[6, 7, 8]:update'
+            ],
+            (object) [
+                'id' => 4,
+                'rule' => 'scope2:resource1/[6, 7, 8]:update'
+            ],
+            (object) [
+                'id' => 5,
+                'rule' => '!scope2:resource1/7:update'
             ],
         ]);
 
         $abilityChecker = new AbilityCheckerImpl($compiledRules);
-        expect($abilityChecker->can('update', 'resource1', 'scope1', 666))
+        expect($abilityChecker->can('update', 'resource1', 'scope2', 7))
             ->toBeFalse();
     });
 
