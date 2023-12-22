@@ -18,6 +18,12 @@ class Resource
             throw new InvalidArgumentException('Resource must not be empty');
         }
 
+        if (!preg_match('/^([a-zA-Z0-9_\-])+$/', $this->resource)) {
+            throw new InvalidArgumentException(
+                'Invalid resource naming. Please use a combination of lowercase letter, number, dash and underscore only'
+            );
+        }
+
         $this->processField();
     }
 

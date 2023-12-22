@@ -9,6 +9,13 @@ it("must throw error when passing empty/blank argument on 'resource' ", function
     'Resource must not be empty'
 );
 
+it("must throw error when passing invalid scope name", function () {
+    new Resource('resource!');
+})->throws(
+    InvalidArgumentException::class,
+    'Invalid resource naming. Please use a combination of lowercase letter, number, dash and underscore only'
+);
+
 describe("toString function test", function () {
     test("successfully encode without field", function () {
         expect("" . new Resource("some_resource"))->toBeString('some_resource');
