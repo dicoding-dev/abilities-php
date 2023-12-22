@@ -49,7 +49,7 @@ describe('Add ability test', function () {
             'update', 'resource2', 'scope1'
         );
 
-        expect($this->abilityRepositoryInstance->getChecker()->hasRule('scope1:resource2:update'))
+        expect($this->abilityRepositoryInstance->getChecker()->hasExactRule('scope1:resource2:update'))
             ->toBeTrue();
     });
 
@@ -59,9 +59,9 @@ describe('Add ability test', function () {
             'scope2:resource1/6:update'
         ]);
 
-        expect($this->abilityRepositoryInstance->getChecker()->hasRule('scope2:resource1/5:read'))
+        expect($this->abilityRepositoryInstance->getChecker()->hasExactRule('scope2:resource1/5:read'))
             ->toBeTrue()
-            ->and($this->abilityRepositoryInstance->getChecker()->hasRule('scope2:resource1/6:update'))
+            ->and($this->abilityRepositoryInstance->getChecker()->hasExactRule('scope2:resource1/6:update'))
             ->toBeTrue();
     });
 });
@@ -91,7 +91,7 @@ describe("Remove the ability test", function () {
 
         /** @var AbilityChecker $checker */
         $checker = $this->abilityRepositoryInstance->getChecker();
-        expect($checker->hasRule('scope1:resource1:read'))
+        expect($checker->hasExactRule('scope1:resource1:read'))
             ->toBeFalse();
     });
 
@@ -103,9 +103,9 @@ describe("Remove the ability test", function () {
 
         /** @var AbilityChecker $checker */
         $checker = $this->abilityRepositoryInstance->getChecker();
-        expect($checker->hasRule('scope1:resource1:read'))
+        expect($checker->hasExactRule('scope1:resource1:read'))
             ->toBeFalse()
-            ->and($checker->hasRule('scope1:resource2:update'))
+            ->and($checker->hasExactRule('scope1:resource2:update'))
             ->toBeFalse();
     });
 });
@@ -138,9 +138,9 @@ describe("Update the ability rule test", function () {
 
         /** @var AbilityChecker $checker */
         $checker = $this->abilityRepositoryInstance->getChecker();
-        expect($checker->hasRule('scope1:resource1:read'))
+        expect($checker->hasExactRule('scope1:resource1:read'))
             ->toBeFalse()
-            ->and($checker->hasRule('scope1:resource1/666:read'))
+            ->and($checker->hasExactRule('scope1:resource1/666:read'))
             ->toBeTrue();
     });
 });

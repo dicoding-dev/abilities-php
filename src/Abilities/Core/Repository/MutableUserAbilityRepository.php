@@ -46,7 +46,7 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
             $inverted
         );
 
-        if ($this->getChecker()->hasRule($rule)) {
+        if ($this->getChecker()->hasExactRule($rule)) {
             return;
         }
 
@@ -98,7 +98,7 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
             $inverted
         );
 
-        $existingRule = $this->getChecker()->getRuleOf($rule);
+        $existingRule = $this->getChecker()->getExactRuleOf($rule);
 
         if ($existingRule === null) {
             return;
@@ -115,7 +115,7 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
                 $rule = RuleCompiler::compile($rule);
             }
 
-            $existingRule = $this->getChecker()->getRuleOf($rule);
+            $existingRule = $this->getChecker()->getExactRuleOf($rule);
             if ($existingRule !== null) {
                 $this->storage->onDeleteSpecificRule($existingRule->getRuleId(), $this->currentUserId);
             }
@@ -145,7 +145,7 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
             $new = RuleCompiler::compile($new);
         }
 
-        $existingRule = $this->getChecker()->getRuleOf($old);
+        $existingRule = $this->getChecker()->getExactRuleOf($old);
         if($existingRule === null) {
             return;
         }
