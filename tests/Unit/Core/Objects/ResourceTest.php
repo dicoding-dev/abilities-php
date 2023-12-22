@@ -18,12 +18,12 @@ it("must throw error when passing invalid resource name", function () {
 
 describe("toString function test", function () {
     test("successfully encode without field", function () {
-        expect("" . new Resource("some_resource"))->toBeString('some_resource');
+        expect("" . new Resource("some_resource"))->toBe('some_resource/*');
     });
     
     test("successfully encode with array field", function () {
         expect("" . new Resource("some_resource", [1, 2]))
-            ->toBeString('some_resource/[1,2]');
+            ->toBe('some_resource/[1,2]');
     });
 
     test("successfully encode with json object field", function () {
@@ -33,12 +33,12 @@ describe("toString function test", function () {
                     'some_field' => 'some_value'
                 ]
             )
-        )->toBeString('some_resource/{"some_field":"some_value"}');
+        )->toBe('some_resource/{"some_field":"some_value"}');
     });
 
     test("successfully encode with non json field", function () {
         expect("" . new Resource("some_resource", 'non_json_field'))
-            ->toBeString('some_resource/non_json_field');
+            ->toBe('some_resource/non_json_field');
     });
 });
 

@@ -24,9 +24,9 @@ it("must throw error when passing more than one star action", function () {
 );
 
 test("Must use star symbol when using default argument", function () {
-    expect((new Action())->get())->toBeString('*');
+    expect((new Action())->get())->toBe('*');
 });
 
 test("Successfully define specific action", function () {
-    expect("" . new Action('read'))->toBeString('read');
+    expect("" . new Action('read'))->toBe('read');
 });
