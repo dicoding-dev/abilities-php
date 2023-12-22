@@ -59,4 +59,8 @@ interface AbilityChecker
      * Get the live rule from constructed rule. Live rule contains ID that matters for editing
      */
     public function getRuleOf(Rule|string $ruleOrSyntax): ?Rule;
+
+    public function hasExactRule(Rule|string $ruleOrSyntax): bool;
+
+    public function getExactRuleOf(Rule|string $ruleOrSyntax): ?Rule;
 }
