@@ -91,4 +91,31 @@ class AbilityCheckerImpl implements AbilityChecker
 
         return null;
     }
+
+    public function hasExactRule(string|Rule $ruleOrSyntax): bool
+    {
+        return $this->getExactRuleOf($ruleOrSyntax) !== null;
+    }
+
+    public function getExactRuleOf(string|Rule $ruleOrSyntax): ?Rule
+    {
+        if(is_string($ruleOrSyntax)) {
+            $ruleOrSyntax = RuleCompiler::compile($ruleOrSyntax);
+        }
+
+        $queriedRules = $this->compiledRules->queryRule(
+            $ruleOrSyntax->getScope()->get(),
+            $ruleOrSyntax->getResource()->getResource(),
+            $ruleOrSyntax->getAction()->get()
+        );
+
+        foreach ($queriedRules as $queriedRule) {
+            if ($queriedRule->getResource()->isEqualWith($ruleOrSyntax->getResource())
+                && $ruleOrSyntax->isInverted() === $queriedRule->isInverted()) {
+                return $queriedRule;
+            }
+        }
+
+        return null;
+    }
 }
