@@ -43,6 +43,7 @@ interface AbilityChecker
     ): bool;
 
     /**
+     * @deprecated
      * Use the same approach as method {@see can()} does. But via customized syntax or rules.
      * Via Syntax :
      * <scope>:<resource>/<field>:<action>
@@ -54,6 +55,7 @@ interface AbilityChecker
     public function hasRule(Rule|string $ruleOrSyntax): bool;
 
     /**
+     * @deprecated
      * Get the live rule from constructed rule. Live rule contains ID that matters for editing
      */
     public function getRuleOf(Rule|string $ruleOrSyntax): ?Rule;
