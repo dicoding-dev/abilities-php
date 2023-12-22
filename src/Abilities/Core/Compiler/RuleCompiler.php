@@ -26,6 +26,7 @@ class RuleCompiler
         $inverted = false;
         if ($syntax[$leftCursor] === '!') {
             $inverted = true;
+            $leftCursor++;
         }
 
         $scope  = '';
