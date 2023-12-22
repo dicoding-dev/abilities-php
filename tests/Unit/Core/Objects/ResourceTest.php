@@ -122,3 +122,92 @@ describe('matchField() function test', function () {
         )->toBeFalse();
     });
 });
+
+describe('isEqualWith() function test', function () {
+    it('must return false when resource name is different', function () {
+        $base = new Resource('some_resource');
+        $compared = new Resource('some_resource2');
+
+        expect($base->isEqualWith($compared))
+            ->toBeFalse();
+    });
+
+    it('must return false when resource field type is different', function () {
+        $base = new Resource('some_resource', 5);
+        $compared = new Resource('some_resource', [5, 6]);
+
+        expect($base->isEqualWith($compared))
+            ->toBeFalse();
+    });
+
+    it('must return true when both resources have star field', function () {
+        $base = new Resource('some_resource', '*');
+        $compared = new Resource('some_resource', '*');
+
+        expect($base->isEqualWith($compared))
+            ->toBeTrue();
+    });
+
+    it('must return false when both resources have different singular field', function () {
+        $base = new Resource('some_resource', 6);
+        $compared = new Resource('some_resource', 7);
+
+        expect($base->isEqualWith($compared))
+            ->toBeFalse();
+    });
+
+    it('must return true when both resources have same singular field value', function () {
+        $base = new Resource('some_resource', 7);
+        $compared = new Resource('some_resource', '7');
+
+        expect($base->isEqualWith($compared))
+            ->toBeTrue();
+    });
+
+    it('must return false when both resources have different array field', function () {
+        $base = new Resource('some_resource', [6, 7, 8]);
+        $compared = new Resource('some_resource', [7, 5, 6]);
+
+        expect($base->isEqualWith($compared))
+            ->toBeFalse();
+    });
+
+    it('must return true when both resources have same array field', function () {
+        $base = new Resource('some_resource', [6, 7, 8]);
+        $compared = new Resource('some_resource', [7, 8, 6]);
+
+        expect($base->isEqualWith($compared))
+            ->toBeTrue();
+    });
+
+    it('must return false when both resources have different object field', function () {
+        $base = new Resource('some_resource', (object)[
+            'a' => 1,
+            'b' => 2,
+            'c' => 3
+        ]);
+        $compared = new Resource('some_resource', (object)[
+            'a' => 1,
+            'b' => 2
+        ]);
+
+        expect($base->isEqualWith($compared))
+            ->toBeFalse();
+    });
+
+    it('must return true when both resources have same object field', function () {
+        $base = new Resource('some_resource', (object)[
+            'a' => 1,
+            'b' => 2,
+            'c' => 3
+        ]);
+        $compared = new Resource('some_resource', (object)[
+            'b' => 2,
+            'c' => 3,
+            'a' => 1
+        ]);
+
+        expect($base->isEqualWith($compared))
+            ->toBeTrue();
+    });
+});

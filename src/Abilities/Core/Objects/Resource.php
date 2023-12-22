@@ -107,6 +107,28 @@ class Resource
         return false;
     }
 
+    public function getFieldType(): FieldType
+    {
+        return $this->fieldType;
+    }
+
+    public function isEqualWith(self $other): bool
+    {
+        if ($other->getResource() !== $this->getResource()) {
+            return false;
+        }
+
+        if ($other->getFieldType() !== $this->getFieldType()) {
+            return false;
+        }
+
+        return match ($this->getFieldType()) {
+            FieldType::ALL => true,
+            FieldType::SINGULAR_FIELD, FieldType::OBJECT => $other->getField() == $this->getField(),
+            FieldType::ARRAY => empty(array_diff($this->getField(), $other->getField())),
+        };
+    }
+
     private function isSingularField(mixed $field): bool
     {
         return is_string($field) || is_int($field);
