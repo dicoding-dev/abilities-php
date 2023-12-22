@@ -9,7 +9,7 @@ it("must throw error when passing empty/blank argument on 'resource' ", function
     'Resource must not be empty'
 );
 
-it("must throw error when passing invalid scope name", function () {
+it("must throw error when passing invalid resource name", function () {
     new Resource('resource!');
 })->throws(
     InvalidArgumentException::class,
