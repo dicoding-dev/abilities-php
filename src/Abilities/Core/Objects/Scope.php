@@ -12,6 +12,12 @@ class Scope
         if (empty($this->scope)) {
             throw new InvalidArgumentException('Scope must not be empty');
         }
+
+        if (!preg_match('/^([a-zA-Z0-9_\-])+$/', $this->scope)) {
+            throw new InvalidArgumentException(
+                'Invalid scope naming. Please use a combination of lowercase letter, number, dash and underscore only'
+            );
+        }
     }
 
     public function get(): string
