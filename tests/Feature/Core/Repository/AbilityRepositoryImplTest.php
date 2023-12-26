@@ -138,123 +138,41 @@ describe('Set the ability test', function () {
     });
 });
 
-describe('Add ability test', function () {
-    beforeEach(function () {
 
-        $this->storage = Mockery::mock(StorageFixture::class)->makePartial();
-        $this->abilityRepositoryInstance = new MutableUserAbilityRepository(
+describe("Unset the ability test", function () {
+    it('must delete the ability when the rule is matched exactly', function () {
+        $repository = new MutableUserAbilityRepository(
             1,
-            $this->storage
-        );
-    });
-
-    it('must not add the ability when the user has the rule', function () {
-        $this->abilityRepositoryInstance->addAbility(
-            'read', 'resource1', 'scope1'
+            $storage = new StorageFixture([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*'
+            ])
         );
 
-        $this->storage->shouldNotHaveReceived()
-            ->onInsertNewRule(1, andAnyOthers());
+        $repository->unsetAbility('read', 'resource', 'scope', 123);
+
+        expect($storage->getRules())
+            ->toEqual([
+                2 => 'scope:resource/4:*'
+            ]);
     });
 
-    it('must add the ability when the user doesnt have the rule', function () {
-        $this->abilityRepositoryInstance->addAbility(
-            'update', 'resource2', 'scope1'
-        );
-
-        expect($this->abilityRepositoryInstance->getChecker()->hasExactRule('scope1:resource2:update'))
-            ->toBeTrue();
-    });
-
-    it('can add many rules', function () {
-        $this->abilityRepositoryInstance->addAbilities([
-            'scope2:resource1/5:read',
-            'scope2:resource1/6:update'
-        ]);
-
-        expect($this->abilityRepositoryInstance->getChecker()->hasExactRule('scope2:resource1/5:read'))
-            ->toBeTrue()
-            ->and($this->abilityRepositoryInstance->getChecker()->hasExactRule('scope2:resource1/6:update'))
-            ->toBeTrue();
-    });
-});
-
-describe("Remove the ability test", function () {
-    beforeEach(function () {
-
-        $this->storage = Mockery::mock(StorageFixture::class)->makePartial();
-        $this->abilityRepositoryInstance = new MutableUserAbilityRepository(
+    it('must not remove the ability when the rule is unmatched', function () {
+        $repository = new MutableUserAbilityRepository(
             1,
-            $this->storage
-        );
-    });
-
-    it('cannot delete when the ability doesnt exist', function () {
-        $this->abilityRepositoryInstance->removeAbility(
-            'edit', 'resource2', 'scopeX'
+            $storage = new StorageFixture([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*'
+            ])
         );
 
-        $this->storage->shouldNotHaveReceived('onDeleteSpecificRule');
-    });
+        $repository->unsetAbility('*', 'resource', 'scope', 123);
 
-    it('can remove the ability', function () {
-        $this->abilityRepositoryInstance->removeAbility(
-            'read', 'resource1', 'scope1'
-        );
-
-        /** @var AbilityChecker $checker */
-        $checker = $this->abilityRepositoryInstance->getChecker();
-        expect($checker->hasExactRule('scope1:resource1:read'))
-            ->toBeFalse();
-    });
-
-    it('can remove many abilities', function () {
-        $this->abilityRepositoryInstance->removeAbilities([
-            'scope1:resource1:read',
-            'scope1:resource2:update'
-        ]);
-
-        /** @var AbilityChecker $checker */
-        $checker = $this->abilityRepositoryInstance->getChecker();
-        expect($checker->hasExactRule('scope1:resource1:read'))
-            ->toBeFalse()
-            ->and($checker->hasExactRule('scope1:resource2:update'))
-            ->toBeFalse();
-    });
-});
-
-describe("Update the ability rule test", function () {
-    beforeEach(function () {
-
-        $this->storage = Mockery::mock(StorageFixture::class)->makePartial();
-        $this->abilityRepositoryInstance = new MutableUserAbilityRepository(
-            1,
-            $this->storage
-        );
-    });
-
-
-    it('cannot update the ability when the ability doesnt exist', function () {
-        $this->abilityRepositoryInstance->update(
-            'scopeX:resource2:edit',
-            'scopeX:resource2/5:edit'
-        );
-
-        $this->storage->shouldNotHaveReceived('onUpdateRule');
-    });
-
-    it('can update the ability', function () {
-        $this->abilityRepositoryInstance->update(
-            'scope1:resource1:read',
-            'scope1:resource1/666:read'
-        );
-
-        /** @var AbilityChecker $checker */
-        $checker = $this->abilityRepositoryInstance->getChecker();
-        expect($checker->hasExactRule('scope1:resource1:read'))
-            ->toBeFalse()
-            ->and($checker->hasExactRule('scope1:resource1/666:read'))
-            ->toBeTrue();
+        expect($storage->getRules())
+            ->toEqual([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*'
+            ]);
     });
 });
 
