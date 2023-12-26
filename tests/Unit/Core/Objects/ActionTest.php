@@ -30,3 +30,8 @@ test("Must use star symbol when using default argument", function () {
 test("Successfully define specific action", function () {
     expect("" . new Action('read'))->toBe('read');
 });
+
+it('can know if the action is whole action (star)', function () {
+    expect((new Action('*'))->wholeAction())->toBeTrue();
+
+});
