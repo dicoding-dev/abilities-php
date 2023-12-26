@@ -149,7 +149,7 @@ describe('cannot() feature function test', function () {
     });
 });
 
-describe('hasRule() feature function test', function () {
+describe('hasExactRule() feature function test', function () {
     it('must return true when the rule exactly found on the user abilities', function () {
         $compiledRules = new CompiledRules([
             (object) [
