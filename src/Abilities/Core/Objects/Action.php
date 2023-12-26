@@ -23,6 +23,11 @@ class Action
         }
     }
 
+    public function wholeAction(): bool
+    {
+        return $this->get() === '*';
+    }
+
     public function get(): string
     {
         return $this->action;
