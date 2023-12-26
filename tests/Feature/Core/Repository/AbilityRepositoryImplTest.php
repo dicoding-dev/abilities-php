@@ -1,6 +1,5 @@
 <?php
 
-use Abilities\Core\Comparator\AbilityChecker;
 use Abilities\Core\Comparator\AbilityCheckerImpl;
 use Abilities\Core\Repository\MutableUserAbilityRepository;
 use Abilities\Core\Storage\StorageInterface;
