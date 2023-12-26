@@ -8,7 +8,7 @@ use Abilities\Core\Storage\StorageInterface;
 describe('Get Ability Checker Function Test', function () {
     beforeEach(function () {
 
-        $this->storage = Mockery::mock(StorageFixture::class)->makePartial();
+        $this->storage = Mockery::mock(new StorageFixture())->makePartial();
         $this->abilityRepositoryInstance = new MutableUserAbilityRepository(
             1,
             $this->storage
