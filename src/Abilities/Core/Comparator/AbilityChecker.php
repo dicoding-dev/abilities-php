@@ -42,24 +42,6 @@ interface AbilityChecker
         mixed $field = null
     ): bool;
 
-    /**
-     * @deprecated
-     * Use the same approach as method {@see can()} does. But via customized syntax or rules.
-     * Via Syntax :
-     * <scope>:<resource>/<field>:<action>
-     *
-     *
-     * @param Rule|string $ruleOrSyntax A syntax (string) for defining rules or with using {@see Rule}
-     * @return bool true if the current user has the rule
-     */
-    public function hasRule(Rule|string $ruleOrSyntax): bool;
-
-    /**
-     * @deprecated
-     * Get the live rule from constructed rule. Live rule contains ID that matters for editing
-     */
-    public function getRuleOf(Rule|string $ruleOrSyntax): ?Rule;
-
     public function hasExactRule(Rule|string $ruleOrSyntax): bool;
 
     public function getExactRuleOf(Rule|string $ruleOrSyntax): ?Rule;

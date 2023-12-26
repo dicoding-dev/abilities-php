@@ -58,40 +58,6 @@ class AbilityCheckerImpl implements AbilityChecker
         return !$this->can($action, $resource, $scope, $field);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function hasRule(string|Rule $ruleOrSyntax): bool
-    {
-        $rule = $this->getRuleOf($ruleOrSyntax);
-        return $rule !== null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getRuleOf(string|Rule $ruleOrSyntax): ?Rule
-    {
-        if(is_string($ruleOrSyntax)) {
-            $ruleOrSyntax = RuleCompiler::compile($ruleOrSyntax);
-        }
-
-        $queriedRules = $this->compiledRules->queryRule(
-            $ruleOrSyntax->getScope()->get(),
-            $ruleOrSyntax->getResource()->getResource(),
-            $ruleOrSyntax->getAction()->get()
-        );
-
-        foreach ($queriedRules as $queriedRule) {
-            if ($queriedRule->getResource()->matchField($ruleOrSyntax->getResource()->getField())
-                && $ruleOrSyntax->isInverted() === $queriedRule->isInverted()) {
-                return $queriedRule;
-            }
-        }
-
-        return null;
-    }
-
     public function hasExactRule(string|Rule $ruleOrSyntax): bool
     {
         return $this->getExactRuleOf($ruleOrSyntax) !== null;
