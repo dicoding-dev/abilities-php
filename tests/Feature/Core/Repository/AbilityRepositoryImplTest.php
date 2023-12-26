@@ -25,6 +25,119 @@ describe('Get Ability Checker Function Test', function () {
 
 });
 
+describe('Set the ability test', function () {
+    it('can set the ability from whole action (star) to specific action', function () {
+        $repository = new MutableUserAbilityRepository(
+            1,
+            $storage = new StorageFixture([
+                1 => 'scope:resource/123:*',
+                2 => 'scope:resource/4:*'
+            ])
+        );
+
+        $repository->setAbility('read', 'resource', 'scope', 123);
+
+        expect($storage->getRules())
+            ->toEqual([
+                2 => 'scope:resource/4:*',
+                3 => 'scope:resource/123:read'
+            ]);
+    });
+
+    it('can set the ability from specific action to whole action (star) action', function () {
+        $repository = new MutableUserAbilityRepository(
+            1,
+            $storage = new StorageFixture([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/123:update',
+                3 => 'scope:resource/4:*'
+            ])
+        );
+
+        $repository->setAbility('*', 'resource', 'scope', 123, );
+
+        expect($storage->getRules())
+            ->toEqual([
+                3 => 'scope:resource/4:*',
+                4 => 'scope:resource/123:*'
+            ]);
+    });
+
+    it('must add new ability when the scope, resource and field attributes is matched, but not match with the action', function () {
+        $repository = new MutableUserAbilityRepository(
+            1,
+            $storage = new StorageFixture([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*'
+            ])
+        );
+
+        $repository->setAbility('update', 'resource', 'scope', 123);
+
+        expect($storage->getRules())
+            ->toEqual([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*',
+                3 => 'scope:resource/123:update',
+            ]);
+    });
+
+    it('must add new ability when the field attributes is not match', function () {
+        $repository = new MutableUserAbilityRepository(
+            1,
+            $storage = new StorageFixture([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*'
+            ])
+        );
+
+        $repository->setAbility('*', 'resource', 'scope', 5);
+
+        expect($storage->getRules())
+            ->toEqual([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*',
+                3 => 'scope:resource/5:*',
+            ]);
+    });
+
+    it('can invert the matched rules, when it is not inverted yet', function () {
+        $repository = new MutableUserAbilityRepository(
+            1,
+            $storage = new StorageFixture([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*'
+            ])
+        );
+
+        $repository->setAbility('read', 'resource', 'scope', 123, true);
+
+        expect($storage->getRules())
+            ->toEqual([
+                2 => 'scope:resource/4:*',
+                3 => '!scope:resource/123:read',
+            ]);
+    });
+
+    test('when the rule is not updated', function() {
+        $repository = new MutableUserAbilityRepository(
+            1,
+            $storage = new StorageFixture([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*'
+            ])
+        );
+
+        $repository->setAbility('read', 'resource', 'scope', 123);
+
+        expect($storage->getRules())
+            ->toEqual([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*'
+            ]);
+    });
+});
+
 describe('Add ability test', function () {
     beforeEach(function () {
 
@@ -148,10 +261,13 @@ describe("Update the ability rule test", function () {
 
 class StorageFixture implements StorageInterface
 {
-    private array $rules = [
-        1 => 'scope1:resource1:read',
-        2 => 'scope1:resource2:update'
-    ];
+    public function __construct(
+        private array $rules = [
+            1 => 'scope1:resource1:read',
+            2 => 'scope1:resource2:update'
+        ]
+    ) {
+    }
 
     /**
      * @inheritDoc
@@ -192,5 +308,10 @@ class StorageFixture implements StorageInterface
         }
 
         return $mappedObjectRules;
+    }
+
+    public function getRules(): array
+    {
+        return $this->rules;
     }
 }
