@@ -71,7 +71,7 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
             }
         }
 
-        if ($composedNewRule->getResource()->allField()) {
+        if ($composedNewRule->getAction()->wholeAction()) {
             foreach ($sameResourceScopeWithUpdatedRule as $currentRule) {
                 if ($currentRule->getResource()->isEqualWith($composedNewRule->getResource())&&
                     $currentRule->isInverted() === $composedNewRule->isInverted()
