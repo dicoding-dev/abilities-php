@@ -49,6 +49,20 @@ describe("Compile and query rules", function () {
         expect($compiledRules->queryRule('scope1', 'resource1', 'delete'))->toBeEmpty();
     })->with([$compiledRules]);
 
+    it('must return all rule when action is unspecified', function (CompiledRules $compiledRules) {
+        expect(
+            array_map(
+                fn (Rule $item) => "$item",
+                $compiledRules->queryRule('scope1', 'resource1', '')
+            )
+        )->toEqual([
+            'scope1:resource1/666:*',
+            'scope1:resource1/5:read',
+            'scope1:resource1/[10,11,12]:read',
+            'scope1:resource1/{"expired":true}:read'
+        ]);
+    })->with([$compiledRules]);
+
     it('must return expected rule id', function (CompiledRules $compiledRules) {
         $rules1 = $compiledRules->queryRule('scope1', 'resource1', 'read');
         expect(array_map(fn (Rule $rule) => $rule->getRuleId(), $rules1))

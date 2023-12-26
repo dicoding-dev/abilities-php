@@ -32,6 +32,14 @@ class CompiledRules
             return [];
         }
 
+        // if the action not specific, it will retrieve all actions (include global too)
+        if (empty($action)) {
+            $unspecifiedActions = $this->compiledRules[$scope][$resource];
+            $result = [];
+            array_walk_recursive($unspecifiedActions, function($a) use (&$result) { $result[] = $a; });
+            return $result;
+        }
+
         if (!array_key_exists($action, $this->compiledRules[$scope][$resource])) {
             return [];
         }
