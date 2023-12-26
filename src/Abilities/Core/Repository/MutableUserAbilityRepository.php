@@ -4,7 +4,6 @@ namespace Abilities\Core\Repository;
 
 use Abilities\Core\Comparator\AbilityChecker;
 use Abilities\Core\Comparator\AbilityCheckerImpl;
-use Abilities\Core\Compiler\RuleCompiler;
 use Abilities\Core\Objects\Action;
 use Abilities\Core\Objects\CompiledRules;
 use Abilities\Core\Objects\Resource;
@@ -31,42 +30,97 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
     ) {
         $this->refresh();
     }
+
     /**
      * @inheritDoc
      */
-    public function addAbility(string $action, string $resource, string $scope, mixed $field = null, bool $inverted = false): void
+    public function setAbility(string $action, string $resource, string $scope, mixed $field = null, bool $inverted = false): void
     {
-        $rule = new Rule(
+        if ($this->compiledRules === null) {
+            throw new \Exception('Empty compiled rules');
+        }
+
+        $composedNewRule = new Rule(
             new Scope($scope),
-            new Resource(
-                $resource,
-                $field
-            ),
+            new Resource($resource, $field),
             new Action($action),
             $inverted
         );
 
-        if ($this->getChecker()->hasExactRule($rule)) {
+        $unspecifiedActionRules = $this->compiledRules->queryRule($scope, $resource, '');
+        $sameActionRulesWithUpdatedRule = [];
+        $sameResourceScopeWithUpdatedRule = [];
+
+        foreach ($unspecifiedActionRules as $unspecifiedActionRule) {
+            if ($unspecifiedActionRule->getAction()->get() === '*') {
+                if ($unspecifiedActionRule->getResource()->isEqualWith($composedNewRule->getResource()) &&
+                    $unspecifiedActionRule->isInverted() === $composedNewRule->isInverted()
+                ) {
+                    $this->storage->onDeleteSpecificRule($unspecifiedActionRule->getRuleId(), $this->currentUserId);
+                    $this->storage->onInsertNewRule($this->currentUserId, "$composedNewRule");
+                    $this->refresh(); // todo: make update not retrieving all from DB
+                    return;
+                }
+                continue;
+            }
+
+            if ($unspecifiedActionRule->getAction()->get() === $action) {
+                $sameActionRulesWithUpdatedRule[] = $unspecifiedActionRule;
+            } else {
+                $sameResourceScopeWithUpdatedRule[] = $unspecifiedActionRule;
+            }
+        }
+
+        if ($composedNewRule->getResource()->allField()) {
+            foreach ($sameResourceScopeWithUpdatedRule as $currentRule) {
+                if ($currentRule->getResource()->isEqualWith($composedNewRule->getResource())&&
+                    $currentRule->isInverted() === $composedNewRule->isInverted()
+                ) {
+                    $this->storage->onDeleteSpecificRule($currentRule->getRuleId(), $this->currentUserId);
+                }
+            }
+            $this->storage->onInsertNewRule($this->currentUserId, "$composedNewRule");
+            $this->refresh();
             return;
         }
 
-        $this->storage->onInsertNewRule($this->currentUserId, "$rule");
+        foreach ($sameActionRulesWithUpdatedRule as $currentRule) {
+            if ($currentRule->getResource()->isEqualWith($composedNewRule->getResource())) {
+                if ($currentRule->isInverted() !== $composedNewRule->isInverted()) {
+                    $this->storage->onDeleteSpecificRule($currentRule->getRuleId(), $this->currentUserId);
+                    break;
+                }
+                return;
+            }
+        }
+
+        $this->storage->onInsertNewRule($this->currentUserId, "$composedNewRule");
         $this->refresh();
     }
 
     /**
      * @inheritDoc
      */
-    public function addAbilities(array $rules): void
+    public function unsetAbility(string $action, string $resource, string $scope, mixed $field = null, bool $inverted = false): void
     {
-        foreach ($rules as $rule) {
-            if (is_string($rule)){
-                $compiledRule = RuleCompiler::compile($rule);
-                $this->storage->onInsertNewRule($this->currentUserId, "$compiledRule");
-                continue;
-            }
+        if ($this->compiledRules === null) {
+            throw new \Exception('Empty compiled rules');
+        }
 
-            $this->storage->onInsertNewRule($this->currentUserId, "$rule");
+        $composedNewRule = new Rule(
+            new Scope($scope),
+            new Resource($resource, $field),
+            new Action($action),
+            $inverted
+        );
+
+        $queriedRules = $this->compiledRules->queryRule($scope, $resource, $action);
+        foreach ($queriedRules as $rule) {
+            if ($composedNewRule->getResource()->isEqualWith($rule->getResource()) &&
+                $composedNewRule->isInverted() === $rule->isInverted()) {
+                $this->storage->onDeleteSpecificRule($rule->getRuleId(), $this->currentUserId);
+                break;
+            }
         }
 
         $this->refresh();
@@ -86,75 +140,10 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
     /**
      * @inheritDoc
      */
-    public function removeAbility(string $action, string $resource, string $scope, mixed $field = null, bool $inverted = false): void
-    {
-        $rule = new Rule(
-            new Scope($scope),
-            new Resource(
-                $resource,
-                $field
-            ),
-            new Action($action),
-            $inverted
-        );
-
-        $existingRule = $this->getChecker()->getExactRuleOf($rule);
-
-        if ($existingRule === null) {
-            return;
-        }
-
-        $this->storage->onDeleteSpecificRule($this->currentUserId, $existingRule->getRuleId());
-        $this->refresh();
-    }
-
-    public function removeAbilities(array $rules): void
-    {
-        foreach ($rules as $rule) {
-            if (is_string($rule)){
-                $rule = RuleCompiler::compile($rule);
-            }
-
-            $existingRule = $this->getChecker()->getExactRuleOf($rule);
-            if ($existingRule !== null) {
-                $this->storage->onDeleteSpecificRule($existingRule->getRuleId(), $this->currentUserId);
-            }
-        }
-
-        $this->refresh();
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getChecker(): AbilityChecker
     {
         return $this->abilityChecker;
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function update(Rule|string $old, Rule|string $new): void
-    {
-        if(is_string($old)) {
-            $old = RuleCompiler::compile($old);
-        }
-
-        if(is_string($new)) {
-            $new = RuleCompiler::compile($new);
-        }
-
-        $existingRule = $this->getChecker()->getExactRuleOf($old);
-        if($existingRule === null) {
-            return;
-        }
-
-        $this->storage->onUpdateRule($existingRule->getRuleId(), $this->currentUserId, "$new");
-        $this->refresh();
-    }
-
-
 
     /**
      * @inheritDoc
