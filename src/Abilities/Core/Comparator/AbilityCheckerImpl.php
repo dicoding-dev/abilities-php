@@ -18,22 +18,22 @@ class AbilityCheckerImpl implements AbilityChecker
      */
     public function can(string $action, string $resource, string $scope, mixed $field = null): bool
     {
-        $specificActionRules  = $this->compiledRules->queryRule($scope, $resource, $action);
-        $specificNormalRules = [];
+        $unspecifiedActionRules  = $this->compiledRules->queryRule($scope, $resource, '');
 
-        foreach ($specificActionRules as $specificActionRule) {
-            if ($specificActionRule->isInverted()) {
-                /** 1. Checking on specific inverted rules */
-                if ($specificActionRule->getResource()->matchField($field)) {
-                    return false; // as the correspondent user is prohibited access resource
-                }
-            } else {
-                $specificNormalRules[] = $specificActionRule;
+        $specificNormalRules = [];
+        $starActionRules = [];
+        foreach ($unspecifiedActionRules as $unspecifiedActionRule) {
+            /** 1. Checking on specific inverted rules */
+            if ($unspecifiedActionRule->isInverted() && $unspecifiedActionRule->getResource()->matchField($field)) {
+                return false; // as the correspondent user is prohibited access resource
+            } elseif ($unspecifiedActionRule->getAction()->wholeAction()) {
+                $starActionRules[] = $unspecifiedActionRule;
+            } elseif ($unspecifiedActionRule->getAction()->get() === $action) {
+                $specificNormalRules[] = $unspecifiedActionRule;
             }
         }
 
         /** 2. Star-<action> rules */
-        $starActionRules = $this->compiledRules->queryRule($scope, $resource, '*');
         foreach ($starActionRules as $starActionRule) {
             if ($starActionRule->getResource()->matchField($field)) {
                 return !$starActionRule->isInverted();
