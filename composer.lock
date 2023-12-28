@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "923679098d0515e317822f7a92e99ae6",
+    "content-hash": "8d2911d2aee91a1dd70f2db499efd498",
     "packages": [],
     "packages-dev": [
         {
@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "919f95af83ad3050c9507e7738b3ff5a72461f7d"
+                "reference": "f49a93c8ad26a4355dc394f69e4448209c5f3ba4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/919f95af83ad3050c9507e7738b3ff5a72461f7d",
-                "reference": "919f95af83ad3050c9507e7738b3ff5a72461f7d",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/f49a93c8ad26a4355dc394f69e4448209c5f3ba4",
+                "reference": "f49a93c8ad26a4355dc394f69e4448209c5f3ba4",
                 "shasum": ""
             },
             "require": {
@@ -32,7 +32,7 @@
                 "phpunit/php-code-coverage": "^10.1.11",
                 "phpunit/php-file-iterator": "^4.1.0",
                 "phpunit/php-timer": "^6.0",
-                "phpunit/phpunit": "^10.5.3",
+                "phpunit/phpunit": "^10.5.5",
                 "sebastian/environment": "^6.0.1",
                 "symfony/console": "^6.3.4 || ^7.0.0",
                 "symfony/process": "^6.3.4 || ^7.0.0"
@@ -101,7 +101,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2023-12-21T17:18:28+00:00"
+            "time": "2023-12-27T16:44:18+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -729,32 +729,32 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pestphp/pest.git",
-                "reference": "c099991cd9d29352c898d6b6a46556d8edef9f6f"
+                "reference": "e00aba539a1733727f154368ba6f2318db2671bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pestphp/pest/zipball/c099991cd9d29352c898d6b6a46556d8edef9f6f",
-                "reference": "c099991cd9d29352c898d6b6a46556d8edef9f6f",
+                "url": "https://api.github.com/repos/pestphp/pest/zipball/e00aba539a1733727f154368ba6f2318db2671bb",
+                "reference": "e00aba539a1733727f154368ba6f2318db2671bb",
                 "shasum": ""
             },
             "require": {
                 "brianium/paratest": "^7.3.1",
-                "nunomaduro/collision": "^7.10.0|^8.0.0",
+                "nunomaduro/collision": "^7.10.0|^8.0.1",
                 "nunomaduro/termwind": "^1.15.1|^2.0.0",
                 "pestphp/pest-plugin": "^2.1.1",
                 "pestphp/pest-plugin-arch": "^2.5.0",
                 "php": "^8.1.0",
-                "phpunit/phpunit": "^10.5.3"
+                "phpunit/phpunit": "^10.5.5"
             },
             "conflict": {
-                "phpunit/phpunit": ">10.5.3",
+                "phpunit/phpunit": ">10.5.5",
                 "sebastian/exporter": "<5.1.0",
                 "webmozart/assert": "<1.11.0"
             },
             "require-dev": {
                 "pestphp/pest-dev-tools": "^2.16.0",
-                "pestphp/pest-plugin-type-coverage": "^2.5.0",
-                "symfony/process": "^6.4.0|^7.0.1"
+                "pestphp/pest-plugin-type-coverage": "^2.6.0",
+                "symfony/process": "^6.4.0|^7.0.0"
             },
             "default-branch": true,
             "bin": [
@@ -818,7 +818,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pestphp/pest/issues",
-                "source": "https://github.com/pestphp/pest/tree/2.x"
+                "source": "https://github.com/pestphp/pest/tree/v2.29.1"
             },
             "funding": [
                 {
@@ -830,7 +830,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-12-23T02:03:57+00:00"
+            "time": "2023-12-27T15:27:07+00:00"
         },
         {
             "name": "pestphp/pest-plugin",
@@ -1642,16 +1642,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.3",
+            "version": "10.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6fce887c71076a73f32fd3e0774a6833fc5c7f19"
+                "reference": "ed21115d505b4b4f7dc7b5651464e19a2c7f7856"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6fce887c71076a73f32fd3e0774a6833fc5c7f19",
-                "reference": "6fce887c71076a73f32fd3e0774a6833fc5c7f19",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ed21115d505b4b4f7dc7b5651464e19a2c7f7856",
+                "reference": "ed21115d505b4b4f7dc7b5651464e19a2c7f7856",
                 "shasum": ""
             },
             "require": {
@@ -1723,7 +1723,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.3"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.5"
             },
             "funding": [
                 {
@@ -1739,7 +1739,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-13T07:25:23+00:00"
+            "time": "2023-12-27T15:13:52+00:00"
         },
         {
             "name": "psr/container",
