@@ -50,6 +50,43 @@ describe('can() feature function test', function () {
             ->toBeFalse();
     });
 
+    it('must return false when the user have inverted rule with whole (star) action', function () {
+        $compiledRules = new CompiledRules([
+            (object) [
+                'id' => 1,
+                'rule' => 'scope2:resource1:read'
+            ],
+            (object) [
+                'id' => 2,
+                'rule' => '!scope1:resource1/666:update'
+            ],
+            (object) [
+                'id' => 3,
+                'rule' => 'scope1:resource1/[6, 7, 8]:update'
+            ],
+            (object) [
+                'id' => 4,
+                'rule' => 'scope2:resource1/[6, 7, 8]:update'
+            ],
+            (object) [
+                'id' => 5,
+                'rule' => 'scope2:resource1:*'
+            ],
+            (object) [
+                'id' => 6,
+                'rule' => '!scope2:resource1/7:*'
+            ],
+            (object) [
+                'id' => 7,
+                'rule' => 'scope2:resource1/7:update'
+            ],
+        ]);
+
+        $abilityChecker = new AbilityCheckerImpl($compiledRules);
+        expect($abilityChecker->can('update', 'resource1', 'scope2', 7))
+            ->toBeFalse();
+    });
+
     it('must return true when user have rule with ALL action', function () {
         $compiledRules = new CompiledRules([
             (object) [
