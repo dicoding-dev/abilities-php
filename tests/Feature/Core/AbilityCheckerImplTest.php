@@ -181,6 +181,10 @@ describe('can() feature function test', function () {
         $abilityChecker = new AbilityCheckerImpl($compiledRules);
         expect($abilityChecker->can('update', 'resource1', 'scope1', (object) ['author' => 667]))
             ->toBeTrue();
+        expect($abilityChecker->can('update', 'resource1', 'scope1'))
+            ->toBeFalse();
+        expect($abilityChecker->can('*', 'resource1', 'scope1'))
+            ->toBeFalse();
         expect($abilityChecker->can('review', 'resource1', 'scope1', (object) ['author' => 667]))
             ->toBeFalse();
         expect($abilityChecker->can('review', 'resource1', 'scope1'))
