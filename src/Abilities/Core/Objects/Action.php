@@ -37,4 +37,13 @@ class Action
     {
         return $this->get();
     }
+
+    public function match(string $action): bool
+    {
+        if ($this->wholeAction()) {
+            return true;
+        }
+
+        return $this->get() === $action;
+    }
 }
