@@ -24,7 +24,10 @@ class AbilityCheckerImpl implements AbilityChecker
         $starActionRules = [];
         foreach ($unspecifiedActionRules as $unspecifiedActionRule) {
             /** 1. Checking on specific inverted rules */
-            if ($unspecifiedActionRule->isInverted() && $unspecifiedActionRule->getResource()->matchField($field)) {
+            if ($unspecifiedActionRule->isInverted() &&
+                $unspecifiedActionRule->getResource()->matchField($field) &&
+                $unspecifiedActionRule->getAction()->match($action)
+            ) {
                 return false; // as the correspondent user is prohibited access resource
             } elseif ($unspecifiedActionRule->getAction()->wholeAction()) {
                 $starActionRules[] = $unspecifiedActionRule;
