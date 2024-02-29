@@ -157,6 +157,33 @@ describe('can() feature function test', function () {
         expect($abilityChecker->can('update', 'resource1', 'scope1', (object) ['author' => 666]))
             ->toBeFalse();
     });
+
+    it('must return as expected when has inverted specific action and whole field rule compared with rule that has specific field with whole action', function () {
+        $compiledRules = new CompiledRules([
+            (object) [
+                'id' => 2,
+                'rule' => '!scope1:resource1/*:review'
+            ],
+            (object) [
+                'id' => 3,
+                'rule' => 'scope1:resource1/{"author": 667}:*'
+            ]
+        ]);
+
+        $abilityChecker = new AbilityCheckerImpl($compiledRules);
+        expect($abilityChecker->can('update', 'resource1', 'scope1', (object) ['author' => 667]))
+            ->toBeTrue();
+        expect($abilityChecker->can('update', 'resource1', 'scope1'))
+            ->toBeFalse();
+        expect($abilityChecker->can('*', 'resource1', 'scope1'))
+            ->toBeFalse();
+        expect($abilityChecker->can('review', 'resource1', 'scope1', (object) ['author' => 667]))
+            ->toBeFalse();
+        expect($abilityChecker->can('review', 'resource1', 'scope1'))
+            ->toBeFalse();
+        expect($abilityChecker->can('review', 'resource1', 'scope1', (object) ['author' => 666]))
+            ->toBeFalse();
+    });
 });
 
 describe('cannot() feature function test', function () {
