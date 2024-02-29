@@ -189,6 +189,8 @@ describe('can() feature function test', function () {
             ->toBeFalse();
         expect($abilityChecker->can('review', 'resource1', 'scope1'))
             ->toBeFalse();
+        expect($abilityChecker->can('review', 'resource1', 'scope1', (object) ['author' => 666]))
+            ->toBeFalse();
     });
 });
 
