@@ -35,3 +35,22 @@ it('can know if the action is whole action (star)', function () {
     expect((new Action('*'))->wholeAction())->toBeTrue();
 
 });
+
+describe('match() function test', function () {
+   it('must return true when the current action is whole action', function () {
+       $currentAction = new Action();
+
+       expect($currentAction->match('create'))->toBeTrue();
+       expect($currentAction->match('*'))->toBeTrue();
+   });
+
+   it ('must return true when the match with specific action', function () {
+       $currentAction = new Action('create');
+       expect($currentAction->match('create'))->toBeTrue();
+   });
+
+   it('must return false when not match with specific action', function () {
+       $currentAction = new Action('create');
+       expect($currentAction->match('update'))->toBeFalse();
+   });
+});
