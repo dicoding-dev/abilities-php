@@ -158,7 +158,7 @@ describe('can() feature function test', function () {
             ->toBeFalse();
     });
 
-    it('must return true when has inverted specific action with whole field but has other specific field with whole action', function () {
+    it('must return as expected when has inverted specific action and whole field rule compared with rule that has specific field with whole action', function () {
         $compiledRules = new CompiledRules([
             (object) [
                 'id' => 1,
