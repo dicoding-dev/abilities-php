@@ -107,19 +107,14 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
             throw new \Exception('Empty compiled rules');
         }
 
-        $composedNewRule = new Rule(
-            new Scope($scope),
-            new Resource($resource, $field),
-            new Action($action),
-            $inverted
-        );
-
         $queriedRules = $this->compiledRules->queryRule($scope, $resource, $action);
         foreach ($queriedRules as $rule) {
-            if ($composedNewRule->getResource()->isEqualWith($rule->getResource()) &&
-                $composedNewRule->isInverted() === $rule->isInverted()) {
+
+            if ($rule->getResource()->match($resource, $field) &&
+                $rule->getAction()->match($action) &&
+                $rule->isInverted() === $inverted
+            ) {
                 $this->storage->onDeleteSpecificRule($rule->getRuleId(), $this->currentUserId);
-                break;
             }
         }
 
