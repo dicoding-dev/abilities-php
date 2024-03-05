@@ -107,6 +107,19 @@ class Resource
         return false;
     }
 
+    public function match(string $resource, mixed $field): bool
+    {
+        if (!$this->matchField($field)) {
+            return false;
+        }
+
+        if (empty($resource) || $resource === '*') {
+            return true;
+        }
+
+        return $this->getResource() === $resource;
+    }
+
     public function getFieldType(): FieldType
     {
         return $this->fieldType;
