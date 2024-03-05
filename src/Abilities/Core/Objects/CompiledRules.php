@@ -28,6 +28,28 @@ class CompiledRules
             return [];
         }
 
+        if ($this->isWhole($resource)) {
+            $result = [];
+            $isWholeAction = $this->isWhole($action);
+            foreach ($this->compiledRules[$scope] as $actions) {
+                foreach ($actions as $arrayOfRule) {
+                    /** @var Rule $rule */
+                    foreach ($arrayOfRule as $rule) {
+                        if ($isWholeAction) {
+                            $result[] = $rule;
+                            continue;
+                        }
+
+                        if ($rule->getAction()->match($action)) {
+                            $result[] = $rule;
+                        }
+                    }
+                }
+            }
+
+            return $result;
+        }
+
         if (!array_key_exists($resource, $this->compiledRules[$scope])) {
             return [];
         }
@@ -75,5 +97,10 @@ class CompiledRules
                 $this->compiledRules[$scope][$resource][$action][] = $compiledRule;
             }
         }
+    }
+
+    private function isWhole(string $str): bool
+    {
+        return empty($str) || $str === '*';
     }
 }

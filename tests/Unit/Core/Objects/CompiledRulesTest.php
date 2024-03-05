@@ -82,4 +82,18 @@ describe("Compile and query rules", function () {
             ->toHaveCount(2)
             ->toContain(5, 7);
     })->with([$compiledRules]);
+
+    it('must return all rules inside the scope whatever resource and actions', function(CompiledRules $compiledRules) {
+        $rules = $compiledRules->queryRule('scope1', '', '');
+        expect(array_map(fn (Rule $rule) => $rule->getRuleId(), $rules))
+            ->toHaveCount(5)
+            ->toContain(1, 2, 3, 4, 6);
+    })->with([$compiledRules]);
+
+    it('must return all rules inside the scope with specific action and whatever resource', function(CompiledRules $compiledRules) {
+        $rules = $compiledRules->queryRule('scope1', '', 'update');
+        expect(array_map(fn (Rule $rule) => $rule->getRuleId(), $rules))
+            ->toHaveCount(2)
+            ->toContain(1, 6);
+    })->with([$compiledRules]);
 });
