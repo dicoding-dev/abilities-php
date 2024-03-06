@@ -183,7 +183,7 @@ describe("Unset the ability test", function () {
             ])
         );
 
-        $repository->unsetAbility('*', 'resource', 'scope', 123);
+        $repository->unsetAbility('update', 'resource', 'scope', 123);
 
         expect($storage->getRules())
             ->toEqual([
