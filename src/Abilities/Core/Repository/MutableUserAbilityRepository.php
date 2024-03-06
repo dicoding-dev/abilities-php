@@ -110,8 +110,8 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
         $queriedRules = $this->compiledRules->queryRule($scope, $resource, $action);
         foreach ($queriedRules as $rule) {
 
-            if ($rule->getResource()->match($resource, $field) &&
-                $rule->getAction()->match($action) &&
+            if ($this->matchResource($rule->getResource(), $resource, $field) &&
+                $this->matchAction($rule->getAction(), $action) &&
                 $rule->isInverted() === $inverted
             ) {
                 $this->storage->onDeleteSpecificRule($rule->getRuleId(), $this->currentUserId);
@@ -119,6 +119,31 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
         }
 
         $this->refresh();
+    }
+
+    private function matchResource(
+        Resource $resource,
+        string $checkedResource,
+        mixed $checkedResourceField
+    ): bool {
+        if ($checkedResource === '*' ) {
+            return $checkedResourceField === '*' || $resource->matchField($checkedResourceField);
+        }
+
+        if ($resource->getResource() !== $checkedResource) {
+            return false;
+        }
+
+        return $resource->matchField($checkedResourceField);
+    }
+
+    private function matchAction(Action $action, string $checkedAction): bool
+    {
+        if ($checkedAction === '*') {
+            return true;
+        }
+
+        return $action->match($checkedAction);
     }
 
     /**
