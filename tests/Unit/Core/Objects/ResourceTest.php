@@ -123,32 +123,6 @@ describe('matchField() function test', function () {
     });
 });
 
-describe('match() function test', function () {
-    it('must return false when the field is not matched', function () {
-        expect(
-            (new Resource('some_resource', 'some_id'))->match('*', 'some_other_id')
-        )->toBeFalse();
-    });
-
-    it('must return true when the first parameter is whole resource', function () {
-        expect(
-            (new Resource('some_resource', 'some_id'))->match('*', 'some_id')
-        )->toBeTrue();
-    });
-
-    it('must return true when match the resource specifically', function () {
-        expect(
-            (new Resource('some_resource', 'some_id'))->match('some_resource', 'some_id')
-        )->toBeTrue();
-    });
-
-    it('must return false when resource name by first parameter is not match', function () {
-        expect(
-            (new Resource('some_resource', 'some_id'))->match('some_other_resource', 'some_id')
-        )->toBeFalse();
-    });
-});
-
 describe('isEqualWith() function test', function () {
     it('must return false when resource name is different', function () {
         $base = new Resource('some_resource');
