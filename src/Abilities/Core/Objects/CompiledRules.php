@@ -40,7 +40,7 @@ class CompiledRules
                             continue;
                         }
 
-                        if ($rule->getAction()->match($action)) {
+                        if ($this->matchAction($rule->getAction(), $action)) {
                             $result[] = $rule;
                         }
                     }
@@ -67,6 +67,15 @@ class CompiledRules
         }
 
         return $this->compiledRules[$scope][$resource][$action];
+    }
+
+    private function matchAction(Action $action, string $checkedAction): bool
+    {
+        if ($checkedAction === '*' || $checkedAction === '') {
+            return true;
+        }
+
+        return $action->get() === $checkedAction;
     }
 
     private function compile(): void
