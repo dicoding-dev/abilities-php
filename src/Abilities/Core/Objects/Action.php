@@ -40,10 +40,6 @@ class Action
 
     public function match(string $otherAction): bool
     {
-        if (empty($otherAction) || $otherAction === '*') {
-            return true;
-        }
-
         if ($this->wholeAction()) {
             return true;
         }
