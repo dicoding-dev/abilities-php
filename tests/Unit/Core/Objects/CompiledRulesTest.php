@@ -73,8 +73,8 @@ describe("Compile and query rules", function () {
 
         $rules2 = $compiledRules->queryRule('scope1', 'resource1', '*');
         expect(array_map(fn (Rule $rule) => $rule->getRuleId(), $rules2))
-            ->toHaveCount(1)
-            ->toContain(1);
+            ->toHaveCount(4)
+            ->toContain(1, 2, 3, 4);
 
 
         $rules3 = $compiledRules->queryRule('scope2', 'resource1', 'read');
