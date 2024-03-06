@@ -37,6 +37,12 @@ it('can know if the action is whole action (star)', function () {
 });
 
 describe('match() function test', function () {
+    it('must return true when the checked action is whole action', function () {
+        $currentAction = new Action('create');
+
+        expect($currentAction->match('*'))->toBeTrue();
+    });
+
    it('must return true when the current action is whole action', function () {
        $currentAction = new Action();
 
