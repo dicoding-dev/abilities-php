@@ -75,8 +75,8 @@ class Resource
             return true;
         }
 
-        if (empty($field)) {
-            return false;
+        if (empty($field) || $field === '*') {
+            return true;
         }
 
         if ($this->fieldType === FieldType::SINGULAR_FIELD) {
