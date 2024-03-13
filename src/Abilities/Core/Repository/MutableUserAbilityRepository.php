@@ -6,6 +6,7 @@ use Abilities\Core\Comparator\AbilityChecker;
 use Abilities\Core\Comparator\AbilityCheckerImpl;
 use Abilities\Core\Objects\Action;
 use Abilities\Core\Objects\CompiledRules;
+use Abilities\Core\Objects\Enums\FieldType;
 use Abilities\Core\Objects\Resource;
 use Abilities\Core\Objects\Rule;
 use Abilities\Core\Objects\Scope;
@@ -114,11 +115,49 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
                 $this->matchAction($rule->getAction(), $action) &&
                 $rule->isInverted() === $inverted
             ) {
-                $this->storage->onDeleteSpecificRule($rule->getRuleId(), $this->currentUserId);
+                if ($rule->getResource()->getFieldType() === FieldType::ARRAY) {
+                    $newRule = $this->removeItemRuleFromArray($rule, $field);
+                    if ($newRule === null) {
+                        $this->storage->onDeleteSpecificRule($rule->getRuleId(), $this->currentUserId);
+                        continue;
+                    }
+                    $this->storage->onUpdateRule($rule->getRuleId(), $this->currentUserId, "$newRule");
+                } else {
+                    $this->storage->onDeleteSpecificRule($rule->getRuleId(), $this->currentUserId);
+                }
             }
         }
 
         $this->refresh();
+    }
+
+    private function removeItemRuleFromArray(Rule $rule, int|array|string $fields): ?Rule
+    {
+        $toBeRemovedFields = [];
+        $newFields = [];
+        if (!is_array($fields)) {
+            $toBeRemovedFields[] = $fields;
+        } else {
+            $toBeRemovedFields = $fields;
+        }
+
+        $fieldCount = 0;
+        foreach ($rule->getResource()->getField() as $oldField) {
+            if (!in_array($oldField, $toBeRemovedFields)) {
+                $newFields[] = $oldField;
+                $fieldCount++;
+            }
+        }
+
+        if ($fieldCount === 0) {
+            return null;
+        }
+
+        if ($fieldCount === 1) {
+            return $rule->withNewField($newFields[0]);
+        }
+
+        return $rule->withNewField($newFields);
     }
 
     private function matchResource(
