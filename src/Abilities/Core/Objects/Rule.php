@@ -57,4 +57,13 @@ class Rule
     {
         return ($this->isInverted() ? '!' : '') . $this->getScope() . ':' . $this->getResource() . ':' . $this->getAction();
     }
+
+    public function withNewField(mixed $field): self
+    {
+        return new self(
+            $this->getScope(),
+            new Resource($this->getResource()->getResource(), $field),
+            $this->getAction()
+        );
+    }
 }
