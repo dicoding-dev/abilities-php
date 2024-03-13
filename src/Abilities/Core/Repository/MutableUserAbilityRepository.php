@@ -117,14 +117,13 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
             ) {
                 if ($rule->getResource()->getFieldType() === FieldType::ARRAY) {
                     $newRule = $this->removeItemRuleFromArray($rule, $field);
-                    if ($newRule === null) {
-                        $this->storage->onDeleteSpecificRule($rule->getRuleId(), $this->currentUserId);
+                    if (!empty($newRule)) {
+                        $this->storage->onUpdateRule($rule->getRuleId(), $this->currentUserId, "$newRule");
                         continue;
                     }
-                    $this->storage->onUpdateRule($rule->getRuleId(), $this->currentUserId, "$newRule");
-                } else {
-                    $this->storage->onDeleteSpecificRule($rule->getRuleId(), $this->currentUserId);
                 }
+
+                $this->storage->onDeleteSpecificRule($rule->getRuleId(), $this->currentUserId);
             }
         }
 
