@@ -132,17 +132,14 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
 
     private function removeItemRuleFromArray(Rule $rule, int|array|string $fields): ?Rule
     {
-        $toBeRemovedFields = [];
         $newFields = [];
         if (!is_array($fields)) {
-            $toBeRemovedFields[] = $fields;
-        } else {
-            $toBeRemovedFields = $fields;
+            $fields = [$fields];
         }
 
         $fieldCount = 0;
         foreach ($rule->getResource()->getField() as $oldField) {
-            if (!in_array($oldField, $toBeRemovedFields)) {
+            if (!in_array($oldField, $fields)) {
                 $newFields[] = $oldField;
                 $fieldCount++;
             }
