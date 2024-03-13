@@ -137,19 +137,19 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
             $fields = [$fields];
         }
 
-        $fieldCount = 0;
+        $steadyFieldCount = 0;
         foreach ($rule->getResource()->getField() as $oldField) {
             if (!in_array($oldField, $fields)) {
                 $newFields[] = $oldField;
-                $fieldCount++;
+                $steadyFieldCount++;
             }
         }
 
-        if ($fieldCount === 0) {
+        if ($steadyFieldCount === 0) {
             return null;
         }
 
-        if ($fieldCount === 1) {
+        if ($steadyFieldCount === 1) {
             return $rule->withNewField($newFields[0]);
         }
 
