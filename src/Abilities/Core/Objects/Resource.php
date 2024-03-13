@@ -54,7 +54,7 @@ class Resource
         );
     }
 
-    public function getResource(): string
+    public function getResourceString(): string
     {
         return $this->resource;
     }
@@ -114,7 +114,7 @@ class Resource
 
     public function isEqualWith(self $other): bool
     {
-        if ($other->getResource() !== $this->getResource()) {
+        if ($other->getResourceString() !== $this->getResourceString()) {
             return false;
         }
 
@@ -137,13 +137,13 @@ class Resource
     public function __toString(): string
     {
         if ($this->allField()) {
-            return $this->getResource() . "/*";
+            return $this->getResourceString() . "/*";
         }
 
         if ($this->fieldType === FieldType::SINGULAR_FIELD) {
-            return $this->getResource() . "/" . $this->getField();
+            return $this->getResourceString() . "/" . $this->getField();
         }
 
-        return $this->getResource() . "/" . json_encode($this->getField());
+        return $this->getResourceString() . "/" . json_encode($this->getField());
     }
 }

@@ -73,13 +73,27 @@ describe("Compile and query rules", function () {
 
         $rules2 = $compiledRules->queryRule('scope1', 'resource1', '*');
         expect(array_map(fn (Rule $rule) => $rule->getRuleId(), $rules2))
-            ->toHaveCount(1)
-            ->toContain(1);
+            ->toHaveCount(4)
+            ->toContain(1, 2, 3, 4);
 
 
         $rules3 = $compiledRules->queryRule('scope2', 'resource1', 'read');
         expect(array_map(fn (Rule $rule) => $rule->getRuleId(), $rules3))
             ->toHaveCount(2)
             ->toContain(5, 7);
+    })->with([$compiledRules]);
+
+    it('must return all rules inside the scope whatever resource and actions', function(CompiledRules $compiledRules) {
+        $rules = $compiledRules->queryRule('scope1', '*', '*');
+        expect(array_map(fn (Rule $rule) => $rule->getRuleId(), $rules))
+            ->toHaveCount(5)
+            ->toContain(1, 2, 3, 4, 6);
+    })->with([$compiledRules]);
+
+    it('must return all rules inside the scope with specific action and whatever resource', function(CompiledRules $compiledRules) {
+        $rules = $compiledRules->queryRule('scope1', '*', 'update');
+        expect(array_map(fn (Rule $rule) => $rule->getRuleId(), $rules))
+            ->toHaveCount(1)
+            ->toContain(6);
     })->with([$compiledRules]);
 });

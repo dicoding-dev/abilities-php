@@ -6,6 +6,7 @@ use Abilities\Core\Comparator\AbilityChecker;
 use Abilities\Core\Comparator\AbilityCheckerImpl;
 use Abilities\Core\Objects\Action;
 use Abilities\Core\Objects\CompiledRules;
+use Abilities\Core\Objects\Enums\FieldType;
 use Abilities\Core\Objects\Resource;
 use Abilities\Core\Objects\Rule;
 use Abilities\Core\Objects\Scope;
@@ -107,23 +108,77 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
             throw new \Exception('Empty compiled rules');
         }
 
-        $composedNewRule = new Rule(
-            new Scope($scope),
-            new Resource($resource, $field),
-            new Action($action),
-            $inverted
-        );
-
         $queriedRules = $this->compiledRules->queryRule($scope, $resource, $action);
         foreach ($queriedRules as $rule) {
-            if ($composedNewRule->getResource()->isEqualWith($rule->getResource()) &&
-                $composedNewRule->isInverted() === $rule->isInverted()) {
+
+            if ($this->matchResource($rule->getResource(), $resource, $field) &&
+                $this->matchAction($rule->getAction(), $action) &&
+                $rule->isInverted() === $inverted
+            ) {
+                if ($rule->getResource()->getFieldType() === FieldType::ARRAY) {
+                    $newRule = $this->removeItemRuleFromArray($rule, $field);
+                    if (!empty($newRule)) {
+                        $this->storage->onUpdateRule($rule->getRuleId(), $this->currentUserId, "$newRule");
+                        continue;
+                    }
+                }
+
                 $this->storage->onDeleteSpecificRule($rule->getRuleId(), $this->currentUserId);
-                break;
             }
         }
 
         $this->refresh();
+    }
+
+    private function removeItemRuleFromArray(Rule $rule, int|array|string $fields): ?Rule
+    {
+        $newFields = [];
+        if (!is_array($fields)) {
+            $fields = [$fields];
+        }
+
+        $steadyFieldCount = 0;
+        foreach ($rule->getResource()->getField() as $oldField) {
+            if (!in_array($oldField, $fields)) {
+                $newFields[] = $oldField;
+                $steadyFieldCount++;
+            }
+        }
+
+        if ($steadyFieldCount === 0) {
+            return null;
+        }
+
+        if ($steadyFieldCount === 1) {
+            return $rule->withNewField($newFields[0]);
+        }
+
+        return $rule->withNewField($newFields);
+    }
+
+    private function matchResource(
+        Resource $resource,
+        string $checkedResource,
+        mixed $checkedResourceField
+    ): bool {
+        if ($checkedResource === '*' ) {
+            return $checkedResourceField === '*' || $resource->matchField($checkedResourceField);
+        }
+
+        if ($resource->getResourceString() !== $checkedResource) {
+            return false;
+        }
+
+        return $resource->matchField($checkedResourceField);
+    }
+
+    private function matchAction(Action $action, string $checkedAction): bool
+    {
+        if ($checkedAction === '*') {
+            return true;
+        }
+
+        return $action->match($checkedAction);
     }
 
     /**

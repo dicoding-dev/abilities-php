@@ -28,12 +28,34 @@ class CompiledRules
             return [];
         }
 
+        if ($this->isWhole($resource)) {
+            $result = [];
+            $isWholeAction = $this->isWhole($action);
+            foreach ($this->compiledRules[$scope] as $actions) {
+                foreach ($actions as $arrayOfRule) {
+                    /** @var Rule $rule */
+                    foreach ($arrayOfRule as $rule) {
+                        if ($isWholeAction) {
+                            $result[] = $rule;
+                            continue;
+                        }
+
+                        if ($this->matchAction($rule->getAction(), $action)) {
+                            $result[] = $rule;
+                        }
+                    }
+                }
+            }
+
+            return $result;
+        }
+
         if (!array_key_exists($resource, $this->compiledRules[$scope])) {
             return [];
         }
 
         // if the action not specific, it will retrieve all actions (include global too)
-        if (empty(trim($action))) {
+        if ($this->isWhole($action)) {
             $unspecifiedActions = $this->compiledRules[$scope][$resource];
             $result = [];
             array_walk_recursive($unspecifiedActions, function($a) use (&$result) { $result[] = $a; });
@@ -47,6 +69,15 @@ class CompiledRules
         return $this->compiledRules[$scope][$resource][$action];
     }
 
+    private function matchAction(Action $action, string $checkedAction): bool
+    {
+        if ($checkedAction === '*' || $checkedAction === '') {
+            return true;
+        }
+
+        return $action->get() === $checkedAction;
+    }
+
     private function compile(): void
     {
         foreach ($this->rules as $rule) {
@@ -54,7 +85,7 @@ class CompiledRules
             $compiledRule->setRuleId($rule->id);
 
             $scope = $compiledRule->getScope()->get();
-            $resource = $compiledRule->getResource()->getResource();
+            $resource = $compiledRule->getResource()->getResourceString();
             $action = $compiledRule->getAction()->get();
 
             if (!array_key_exists($scope, $this->compiledRules)) {
@@ -75,5 +106,10 @@ class CompiledRules
                 $this->compiledRules[$scope][$resource][$action][] = $compiledRule;
             }
         }
+    }
+
+    private function isWhole(string $str): bool
+    {
+        return empty($str) || $str === '*';
     }
 }

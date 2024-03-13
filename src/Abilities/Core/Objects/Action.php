@@ -38,12 +38,12 @@ class Action
         return $this->get();
     }
 
-    public function match(string $action): bool
+    public function match(string $otherAction): bool
     {
         if ($this->wholeAction()) {
             return true;
         }
 
-        return $this->get() === $action;
+        return $this->get() === $otherAction;
     }
 }

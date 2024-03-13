@@ -156,6 +156,24 @@ describe("Unset the ability test", function () {
             ]);
     });
 
+    it('must delete the ability when the rule is matched', function () {
+        $repository = new MutableUserAbilityRepository(
+            1,
+            $storage = new StorageFixture([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*',
+                3 => 'scope:resource2/123:read'
+            ])
+        );
+
+        $repository->unsetAbility('read', '*', 'scope', 123);
+
+        expect($storage->getRules())
+            ->toEqual([
+                2 => 'scope:resource/4:*'
+            ]);
+    });
+
     it('must not remove the ability when the rule is unmatched', function () {
         $repository = new MutableUserAbilityRepository(
             1,
@@ -165,7 +183,66 @@ describe("Unset the ability test", function () {
             ])
         );
 
-        $repository->unsetAbility('*', 'resource', 'scope', 123);
+        $repository->unsetAbility('update', 'resource', 'scope', 123);
+
+        expect($storage->getRules())
+            ->toEqual([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*'
+            ]);
+    });
+
+    it('must only remove expected field when unset one item from arrayable field', function () {
+        $repository = new MutableUserAbilityRepository(
+            1,
+            $storage = new StorageFixture([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*',
+                3 => 'scope:resource/[6, 7, 8]:read'
+            ])
+        );
+
+        $repository->unsetAbility('read', 'resource', 'scope', 7);
+
+        expect($storage->getRules())
+            ->toEqual([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*',
+                3 => 'scope:resource/[6,8]:read'
+            ]);
+    });
+
+    it('must correctly remove 2 item from 3 item arrayable fields', function () {
+        $repository = new MutableUserAbilityRepository(
+            1,
+            $storage = new StorageFixture([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*',
+                3 => 'scope:resource/[6, 7, 8]:read'
+            ])
+        );
+
+        $repository->unsetAbility('read', 'resource', 'scope', [6, 8]);
+
+        expect($storage->getRules())
+            ->toEqual([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*',
+                3 => 'scope:resource/7:read'
+            ]);
+    });
+
+    it('must correctly remove the rule when unset all items from arrayable fields', function () {
+        $repository = new MutableUserAbilityRepository(
+            1,
+            $storage = new StorageFixture([
+                1 => 'scope:resource/123:read',
+                2 => 'scope:resource/4:*',
+                3 => 'scope:resource/[6, 7, 8]:read'
+            ])
+        );
+
+        $repository->unsetAbility('read', 'resource', 'scope', [6, 8, 7]);
 
         expect($storage->getRules())
             ->toEqual([
