@@ -38,7 +38,7 @@ describe("Compile a rule syntax", function () {
             $rule = RuleCompiler::compile('!scope:resource:action');
 
             expect($rule->getScope()->get())->toBe('scope')
-                ->and($rule->getResource()->getResource())->toBe('resource')
+                ->and($rule->getResource()->getResourceString())->toBe('resource')
                 ->and($rule->getResource()->getField())->toBeNull()
                 ->and($rule->getAction()->get())->toBe('action')
                 ->and($rule->isInverted())->toBeTrue();
@@ -48,7 +48,7 @@ describe("Compile a rule syntax", function () {
             $rule = RuleCompiler::compile('scope:resource:action');
 
             expect($rule->getScope()->get())->toBe('scope')
-                ->and($rule->getResource()->getResource())->toBe('resource')
+                ->and($rule->getResource()->getResourceString())->toBe('resource')
                 ->and($rule->getResource()->getField())->toBeNull()
                 ->and($rule->getAction()->get())->toBe('action');
         });
@@ -57,7 +57,7 @@ describe("Compile a rule syntax", function () {
             $rule = RuleCompiler::compile('scope:resource/some_field:action');
 
             expect($rule->getScope()->get())->toBe('scope')
-                ->and($rule->getResource()->getResource())->toBe('resource')
+                ->and($rule->getResource()->getResourceString())->toBe('resource')
                 ->and($rule->getResource()->getField())->toBe('some_field')
                 ->and($rule->getAction()->get())->toBe('action');
         });
@@ -66,7 +66,7 @@ describe("Compile a rule syntax", function () {
             $rule = RuleCompiler::compile('scope:resource/{ "fieldA": 2, "fieldB": 5 }:action');
 
             expect($rule->getScope()->get())->toBe('scope')
-                ->and($rule->getResource()->getResource())->toBe('resource')
+                ->and($rule->getResource()->getResourceString())->toBe('resource')
                 ->and($rule->getAction()->get())->toBe('action');
 
             $field = $rule->getResource()->getField();
@@ -78,7 +78,7 @@ describe("Compile a rule syntax", function () {
             $rule = RuleCompiler::compile('scope:resource/[1, 2, 3]:action');
 
             expect($rule->getScope()->get())->toBe('scope')
-                ->and($rule->getResource()->getResource())->toBe('resource')
+                ->and($rule->getResource()->getResourceString())->toBe('resource')
                 ->and($rule->getAction()->get())->toBe('action');
 
             $field = $rule->getResource()->getField();

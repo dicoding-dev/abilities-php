@@ -169,7 +169,7 @@ class MutableUserAbilityRepository implements MutableAbilityRepository
             return $checkedResourceField === '*' || $resource->matchField($checkedResourceField);
         }
 
-        if ($resource->getResource() !== $checkedResource) {
+        if ($resource->getResourceString() !== $checkedResource) {
             return false;
         }
 

@@ -85,7 +85,7 @@ class CompiledRules
             $compiledRule->setRuleId($rule->id);
 
             $scope = $compiledRule->getScope()->get();
-            $resource = $compiledRule->getResource()->getResource();
+            $resource = $compiledRule->getResource()->getResourceString();
             $action = $compiledRule->getAction()->get();
 
             if (!array_key_exists($scope, $this->compiledRules)) {

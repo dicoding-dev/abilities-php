@@ -62,7 +62,7 @@ class Rule
     {
         return new self(
             $this->getScope(),
-            new Resource($this->getResource()->getResource(), $field),
+            new Resource($this->getResource()->getResourceString(), $field),
             $this->getAction()
         );
     }

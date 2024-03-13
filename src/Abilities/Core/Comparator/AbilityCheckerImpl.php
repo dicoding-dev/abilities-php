@@ -74,7 +74,7 @@ class AbilityCheckerImpl implements AbilityChecker
 
         $queriedRules = $this->compiledRules->queryRule(
             $ruleOrSyntax->getScope()->get(),
-            $ruleOrSyntax->getResource()->getResource(),
+            $ruleOrSyntax->getResource()->getResourceString(),
             $ruleOrSyntax->getAction()->get()
         );
 
